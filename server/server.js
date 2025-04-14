@@ -3,7 +3,7 @@ const app = express();
 
 // set up api
 app.get("/api", (req,res)=>{
-    { users: ["john", "twin"]}
+    res.json({ users: ["john", "twin"]})
 })
 // Set up server
 app.listen(5000, ()=>{console.log("server has started on port 5000")})
