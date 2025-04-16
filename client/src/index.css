@@ -22,9 +22,22 @@ body {
   margin: 0;
   padding:0;
   overflow-x:hidden;
+  background-color:#f9fafb ;
 }
 .navbar{
   width:100vw;
+}
+.footer{
+  width:100vw;
+}
+.vote-now-btn{
+  background-color:var(--orange);
+}
+.orange-color{
+  color:var(--orange);
+}
+.orange-color-bg{
+  background-color:var(--orange);
 }
 /* .hero-body{
   height: 70vh;

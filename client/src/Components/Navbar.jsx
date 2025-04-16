@@ -33,7 +33,7 @@ export default function Navbar() {
               <div className="flex items-center">
                 <div className="shrink-0">
                     <a href="/">
-                        <p className = "text-amber-300 text-3xl">Votera</p>
+                        <p className = "orange-color text-3xl">Votera</p>
                     </a>
                   
                   {/* <img
