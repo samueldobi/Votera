@@ -2,21 +2,12 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    // <div className='hero-body flex flex-col items-center justify-evenly h-full'>
-    //     <div>
-    //         <p className='m-2 p-2 text-6xl'>Vote. Decide. Empower</p>
-    //         <p className='m-2 p-2 text-xl'>Votera makes online voting easy, secure, and accessible — for communities, schools, events, and more.</p>
-    //     </div>
-    //     <div>
-    //     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, amet.</p>
-    //     </div>
 
-    // </div>
-    <div className="bg-gray-50 py-24 sm:py-32">
+    <div className="bg-gray-50 py-10 sm:py-32">
     <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-      <h2 className="text-center text-base/7 font-semibold text-indigo-600">Deploy faster</h2>
+      <h2 className="text-center text-base/7 font-semibold text-indigo-600">Vote, Decide, Empower</h2>
       <p className="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance text-gray-950 sm:text-5xl">
-        Everything you need to deploy your app
+        Votera makes online voting easy, secure, and accessible
       </p>
       <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
         <div className="relative lg:row-span-2">
@@ -24,10 +15,10 @@ const Hero = () => {
           <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]">
             <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
               <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                Mobile friendly
+                Secure Voting
               </p>
               <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.
+                All votes are encrypted and tamper-proof.
               </p>
             </div>
             <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
@@ -46,9 +37,9 @@ const Hero = () => {
           <div className="absolute inset-px rounded-lg bg-white max-lg:rounded-t-[2rem]"></div>
           <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]">
             <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-              <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Performance</p>
+              <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Fast & Easy</p>
               <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit maiores impedit.
+              Vote in seconds from your phone or laptop.
               </p>
             </div>
             <div className="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2">
@@ -65,9 +56,9 @@ const Hero = () => {
           <div className="absolute inset-px rounded-lg bg-white"></div>
           <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]">
             <div className="px-8 pt-8 sm:px-10 sm:pt-10">
-              <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Security</p>
+              <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">Live Results</p>
               <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi.
+                See transparent, real-time results once you vote.
               </p>
             </div>
             <div className="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
@@ -85,10 +76,10 @@ const Hero = () => {
           <div className="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]">
             <div className="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
               <p className="mt-2 text-lg font-medium tracking-tight text-gray-950 max-lg:text-center">
-                Powerful APIs
+              Accessible Anywhere
               </p>
               <p className="mt-2 max-w-lg text-sm/6 text-gray-600 max-lg:text-center">
-                Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget sem sodales gravida.
+              Perfect for schools, teams, and communities globally.
               </p>
             </div>
             <div className="relative min-h-[30rem] w-full grow">
