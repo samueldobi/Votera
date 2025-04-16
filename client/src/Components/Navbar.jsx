@@ -8,11 +8,10 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
+  { name: 'Home', href: '/', current: true },
+  { name: 'Vote', href: '/vote', current: false },
+  { name: 'Login ', href: '/login', current: false },
+  { name: 'Register', href: '/register', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -27,25 +26,21 @@ function classNames(...classes) {
 export default function Navbar() {
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
-      <div className="w-full">
+      <div className="w-full navbar">
         <Disclosure as="nav" className="w-full bg-gray-800">
-          <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="shrink-0">
-                  <img
+                    <a href="/">
+                        <p className = "text-amber-300 text-3xl">Votera</p>
+                    </a>
+                  
+                  {/* <img
                     alt="Your Company"
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                     className="size-8"
-                  />
+                  /> */}
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
