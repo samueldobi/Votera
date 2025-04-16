@@ -26,25 +26,21 @@ function classNames(...classes) {
 export default function Navbar() {
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className="w-full navbar">
         <Disclosure as="nav" className="w-full bg-gray-800">
           <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="shrink-0">
-                  <img
+                    <a href="/">
+                        <p className = "text-amber-300 text-3xl">Votera</p>
+                    </a>
+                  
+                  {/* <img
                     alt="Your Company"
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                     className="size-8"
-                  />
+                  /> */}
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">

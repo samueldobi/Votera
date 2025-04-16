@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 @tailwind utilities;
-*{
-  /* border: 1px solid red; */
-}
+/* *{
+  border: 1px solid red;
+} */
 #root{
   margin: 0 !important;
   padding:0 !important;
@@ -10,25 +11,30 @@
 :root {
   margin: 0;
   padding:0;
-  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  --orange:#e65c00;
+  --yellow:#F9D423;
+  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
+ /*  line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
+ */
 }
 body {
   margin: 0;
   padding:0;
+  overflow-x: hidden;
 }
 .navbar{
   width:100vw;
+}
+.home-body{
+  background: #e65c00;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #F9D423, #e65c00);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #F9D423, #e65c00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width:100vw;
+  height:100vh;
+}
+.hero-body{
+  height: 70vh;
 }
 /* 
 h1 {
