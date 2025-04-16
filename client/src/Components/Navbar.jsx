@@ -8,10 +8,10 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Home', href: '#', current: true },
-  { name: 'Vote', href: '#', current: false },
-  { name: 'Login ', href: '#', current: false },
-  { name: 'Register', href: '#', current: false },
+  { name: 'Home', href: '/', current: true },
+  { name: 'Vote', href: '/vote', current: false },
+  { name: 'Login ', href: '/login', current: false },
+  { name: 'Register', href: '/register', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -34,9 +34,9 @@ export default function Navbar() {
         <body class="h-full">
         ```
       */}
-      <div className="w-full">
+      <div className="w-full navbar">
         <Disclosure as="nav" className="w-full bg-gray-800">
-          <div className=" px-4 sm:px-6 lg:px-8">
+          <div className="  px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="shrink-0">
