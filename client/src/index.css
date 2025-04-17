@@ -42,3 +42,6 @@ body {
 #first-name:focus{
   border:2px solid  #e65c00;
 }
+.footer{
+  width:100vw;
+}
