@@ -66,7 +66,7 @@ const CreateVote = () => {
                         {/* Poll Description Div */}
 
                         {/* Button Div */}
-                        <div className="">
+                        <div className="m-3 p-3">
                             {<Button text= "Next Step" onClick={nextStep}/>}
                         </div>
                          {/* Button Div */}
