@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Vote', href: '/vote', current: false },
   { name: 'Login ', href: '/login', current: false },
   { name: 'Register', href: '/register', current: false },
+  { name: 'Contact', href: '/contact', current: false },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -32,7 +33,7 @@ export default function Navbar() {
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="shrink-0">
-                    <a href="/">
+                    <a href='/'>
                         <p className = "orange-color text-3xl">Votera</p>
                     </a>
                   
