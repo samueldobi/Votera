@@ -8,6 +8,7 @@ import Register from './Components/Register'
 import Notfound from './Notfound'
 import Footer from './Components/Footer'
 import Contact from './Components/Contact'
+import CreateVote from './Components/Vote-Components/CreateVote'
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='/login' element= {<Login/>}/>
           <Route path='/register' element= {<Register/>}/>
           <Route path='/contact' element= {<Contact/>}/>
+          <Route path='/create-vote' element= {<CreateVote/>}/>
           <Route path='*' element= {<Notfound/>}/>
         </Routes>
         <Footer/>
