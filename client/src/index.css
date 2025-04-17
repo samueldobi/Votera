@@ -39,3 +39,6 @@ body {
 .orange-color-bg{
   background-color:var(--orange);
 }
+#first-name:focus{
+  border:2px solid  #e65c00;
+}
