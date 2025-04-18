@@ -5,17 +5,27 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
 
 const CreateVote = () => {
+    // States
     const [step, setStep] =  useState(1);
+    const [participants, setParticipants] =  useState([]);
+    const [formName, setFormName] = useState();
     const[formData, setFormData] = useState({
-        pollname: '',
-        polldetails:'',
+        name: '',
+        details:'',
+        image:''
     })
-    const updateInput = (e) =>{
-        setFormData((prev)=>({
-            ...prev,
-            [e.target.name]:e.target.value
-        }))
-    };
+    // State Functions
+    const handleChange = (e) =>{
+       const updatedForm = {...formData, [e.target.name]:e.target.value}
+       setFormData(updatedForm)
+       console.log(updatedForm)
+    }
+    // const updateInput = (e) =>{
+    //     setFormData((prev)=>({
+    //         ...prev,
+    //         [e.target.name]:e.target.value
+    //     }))
+    // };
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
   return (
@@ -34,7 +44,7 @@ const CreateVote = () => {
                             Poll Name
                         </label>
                         <div className="mt-2">
-                            <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
+                            <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-[#e65c00]">
                             
                             <input
                                 id="pollname"
@@ -57,7 +67,7 @@ const CreateVote = () => {
                             name="about"
                             rows={3}
                             placeholder='Dscribe What the poll is about shortly'
-                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
                             defaultValue={''}
                             />
                         </div>
@@ -77,7 +87,64 @@ const CreateVote = () => {
                     {/* Second part of the poll details form */}
                      {step === 2 && (
                         <div className="sm:col-span-8"> 
+                          <h2 className='text-2xl/7 m-3  font-semibold text-gray-900'>Add Contestant Details</h2>
+                          {/* Add participant  */}
+                           <div>
+                            {/* Participant Name */}
+                           <input
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                            />
+                              {/* Participant Name */}
 
+                            {/* Participant Detail  */}
+                             <div>
+                             <input
+                                type="text"
+                                name="details"
+                                placeholder="Details"
+                                value={formData.details}
+                                onChange={handleChange}
+                                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                            />
+                             </div>
+                            {/* Participant Detail  */}
+
+
+                            {/* Participant Image  */}
+                            <div className="col-span-full">
+                                <label htmlFor="photo" className="block text-sm/6 font-medium text-gray-900">
+                                    Photo
+                                </label>
+                                <div className="mt-2 flex items-center gap-x-3">
+                                    <UserCircleIcon aria-hidden="true" className="size-12 text-gray-300" />
+                                    <button
+                                    type="button"
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                                    >
+                                    Change
+                                    </button>
+                                </div>
+                                </div>
+
+                               
+
+                            <input
+                                type="file"
+                                name="image"
+                                placeholder="Upload Image"
+                                value={formData.image}
+                                onChange={handleChange}
+                                className="w-full mb-2 p-2 border border-gray-300 rounded"
+                            />
+                            {/* Participant Image  */}
+
+                           </div>
+                          {/* Add participant  */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= "Prev Step" onClick={prevStep}/>}
                             {<Button text= "Next Step" onClick={nextStep}/>}
