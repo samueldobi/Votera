@@ -21,11 +21,11 @@ const CreateVote = () => {
   return (
     <>
     <div className="h-screen flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
+                <h2 className="text-2xl/7 m-3  font-semibold text-gray-900">Poll Details</h2>
         <div className="border border-gray-300 rounded-md p-4">
         <form>
 
-                <h2 className="text-base/7 font-semibold text-gray-900">Poll Details</h2>
-                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="w-full mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     {/* First page of the poll details form */}
                     {step === 1 && (
                         <div className="sm:col-span-8">
@@ -72,19 +72,22 @@ const CreateVote = () => {
                          {/* Button Div */}
                         </div>)}
                     {/* First page of the poll details form */}
+
+
                     {/* Second part of the poll details form */}
                      {step === 2 && (
-                          <div className="sm:col-span-8"> 
+                        <div className="sm:col-span-8"> 
 
-                        <div className="mt-10 flex items-center justify-between gap-x-6">
-                        {<Button text= "Prev Step" onClick={prevStep}/>}
-                        {<Button text= "Next Step" onClick={nextStep}/>}
-                          
-                          </div>
+                            <div className="mt-10 flex items-center justify-between gap-x-6">
+                            {<Button text= "Prev Step" onClick={prevStep}/>}
+                            {<Button text= "Next Step" onClick={nextStep}/>}
                             
-                          </div>
+                            </div>
+                            
+                        </div>
 
                      )}
+
                     {/* Second part of the poll details form */}
                     {/* Third part of the poll */}
                      {step === 3 && (
@@ -92,11 +95,31 @@ const CreateVote = () => {
 
                         <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= "Prev Step" onClick={prevStep}/>}
+                            {<Button text= "Start Poll" />}
                           
                           </div>
                         </div>
                      )}
                     {/* Third part of the poll */}
+
+                    {/* Step indicators */}
+                        <div className=" w-screen step-indicators flex justify-center">
+                            {[1,2,3].map((s)=>(
+                                <div
+                                 key={s}
+                                 onClick={()=> setStep(s)}
+                                 className={`w-4 h-4 m-2 p-2 rounded-full flex items-center justify-center ${ step >= s ? 'bg-[#e65c00] text-white' : 'bg-gray-300 text-gray-500'}`}
+                                >
+                               {/* for the horizontal line{} */}
+                                {/* {index < 2 &&(
+                                    <div  className={` ${ step > s ?'bg-blue-500' : 'bg-gray-300'  }`}></div>
+                                ) } */}
+                            {/* for the horizontal line */}
+                                </div>
+                               
+                            ))}
+                        </div>
+                    {/* Step indicators */}
             </div>
         </form>
 
