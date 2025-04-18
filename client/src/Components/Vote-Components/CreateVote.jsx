@@ -20,6 +20,11 @@ const CreateVote = () => {
        setFormData(updatedForm)
        console.log(updatedForm)
     }
+    const handleAddParticipant = () => {
+        if(formData.name.trim() === '' ||  formData.details.trim() === '') return;
+        setParticipants([...participants, formData])
+        setFormData({name:'', details:'', image:''})
+    }
     // const updateInput = (e) =>{
     //     setFormData((prev)=>({
     //         ...prev,
@@ -141,9 +146,27 @@ const CreateVote = () => {
                                 onChange={handleChange}
                                 className="w-full mb-2 p-2 border border-gray-300 rounded"
                             />
+                                <button
+                                    type="button"
+                                    onClick={handleAddParticipant}
+                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                                    >
+                                    Add participant
+                                    </button>
                             {/* Participant Image  */}
 
                            </div>
+                          {/* Add participant  */}
+                          <div className="">
+                            {participants.map((participant, index)=>(
+                                <div className="" key={index}
+                                >
+                                    <p>{participant.name}</p>
+                                    <p>{participant.details}</p>
+                                    {participant.image && <img src={participant.image} alt={participant.name} className="w-24 h-24 mt-2 object-cover rounded" />}
+                                </div>
+                            ))}
+                          </div>
                           {/* Add participant  */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= "Prev Step" onClick={prevStep}/>}
