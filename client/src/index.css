@@ -45,3 +45,6 @@ body {
 .footer{
   width:100vw;
 }
+.step-indicators{
+  margin-left:-6rem;
+}
