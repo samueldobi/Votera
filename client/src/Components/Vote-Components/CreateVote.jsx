@@ -4,11 +4,14 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
 import DatePick from './DatePick';
+import AlertBox from './AlertBox';
+
 
 const CreateVote = () => {
     // States
     const [step, setStep] =  useState(1);
     const [participants, setParticipants] =  useState([]);
+    const [showAlert, setShowAlert] = useState(false);
     const [formDetails, setFormDetails] = useState({
         name:'',
         about:''
@@ -28,9 +31,11 @@ const CreateVote = () => {
     }
     const handleAddParticipant = () => {
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
-            alert( "fill both name and details inputs")
+           setShowAlert(true)
+        // alert('fill all inputs')
             return;
         };
+        setShowAlert(false)
         setParticipants([...participants, formData])
         setFormData({name:'', details:'', image:''})
     }
@@ -79,7 +84,7 @@ const CreateVote = () => {
                             rows={3}
                             value={formDetails.about}
                             onChange={(e)=>setFormDetails({...formDetails, about:e.target.value})}
-                            placeholder='Dscribe What the poll is about shortly'
+                            placeholder='Describe What the poll is about shortly'
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
                             defaultValue={''}
                             />
@@ -90,7 +95,7 @@ const CreateVote = () => {
 
                         {/* Button Div */}
                         <div className="m-3 p-3">
-                            {<Button text= "Next Step" onClick={nextStep}/>}
+                            {<Button text= ">" onClick={nextStep}/>}
                         </div>
                          {/* Button Div */}
                         </div>)}
@@ -104,6 +109,9 @@ const CreateVote = () => {
                           {/* Add participant  */}
                            <div>
                             {/* Participant Name */}
+                            {/* Alert Box */}
+                             {showAlert && <AlertBox  text = "fill all inputs"/>}
+                            {/* Alert Box */}
                            <input
                                 type="text"
                                 name="name"
@@ -177,8 +185,8 @@ const CreateVote = () => {
                           </div>
                           {/* Add participant  */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
-                            {<Button text= "Prev Step" onClick={prevStep}/>}
-                            {<Button text= "Next Step" onClick={nextStep}/>}
+                            {<Button text= " < "  onClick={prevStep}/>}
+                            {<Button text= " >" onClick={nextStep}/>}
                             
                             </div>
                             
@@ -191,16 +199,16 @@ const CreateVote = () => {
                      {step === 3 && (
                         <div className="sm:col-span-8"> 
 
-                        <h2 classname= "m-6 p-2">Pick Start Date</h2>
+                        <h2 className= "m-6 p-2">Pick Start Date</h2>
                         <div className="date-picker">
                             <DatePick/>
                         </div>
-                        <h2 classname= "m-6 p-2">Pick End Date</h2>
+                        <h2 className= "m-6 p-2">Pick End Date</h2>
                         <div className="date-picker">
                             <DatePick/>
                         </div>
                         <div className="mt-10 flex items-center justify-between gap-x-6">
-                            {<Button text= "Prev Step" onClick={prevStep}/>}
+                            {<Button text= "<" onClick={prevStep}/>}
                             {<Button text= "Start Poll" />}
                           
                           </div>
