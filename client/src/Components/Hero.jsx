@@ -7,7 +7,7 @@ const Hero = () => {
     <div className="bg-gray-50 py-10 sm:py-32">
     <div className="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
       <h2 className="orange-color text-center text-base/7 font-semibold">Vote, Decide, Empower</h2>
-      <p className="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance text-gray-950 sm:text-5xl">
+      <p className="mx-auto mt-2 max-w-2xl text-center text-4xl font-semibold tracking-tight text-balance text-gray-950 sm:text-5xl">
         Votera makes online voting easy, secure, and accessible
       </p>
       <div className="mt-10 flex items-center justify-center gap-x-6">

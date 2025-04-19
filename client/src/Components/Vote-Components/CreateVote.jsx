@@ -8,8 +8,10 @@ const CreateVote = () => {
     // States
     const [step, setStep] =  useState(1);
     const [participants, setParticipants] =  useState([]);
-    const [formName, setFormName] = useState();
+    // const [formName, setFormName] = useState();
     const[formData, setFormData] = useState({
+        // pollName:'',
+        // pollDetails:'',
         name: '',
         details:'',
         image:''
@@ -21,7 +23,10 @@ const CreateVote = () => {
        console.log(updatedForm)
     }
     const handleAddParticipant = () => {
-        if(formData.name.trim() === '' ||  formData.details.trim() === '') return;
+        if(formData.name.trim() === '' ||  formData.details.trim() === ''){
+            alert( "fill both name and details inputs")
+            return;
+        };
         setParticipants([...participants, formData])
         setFormData({name:'', details:'', image:''})
     }
@@ -200,11 +205,7 @@ const CreateVote = () => {
                                  onClick={()=> setStep(s)}
                                  className={`w-4 h-4 m-2 p-2 rounded-full flex items-center justify-center ${ step >= s ? 'bg-[#e65c00] text-white' : 'bg-gray-300 text-gray-500'}`}
                                 >
-                               {/* for the horizontal line{} */}
-                                {/* {index < 2 &&(
-                                    <div  className={` ${ step > s ?'bg-blue-500' : 'bg-gray-300'  }`}></div>
-                                ) } */}
-                            {/* for the horizontal line */}
+                               
                                 </div>
                                
                             ))}
