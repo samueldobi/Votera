@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
 import DatePick from './DatePick';
 import AlertBox from './AlertBox';
+import ParticipantTable from './ParticipantTable';
 
 
 const CreateVote = () => {
@@ -44,7 +45,7 @@ const CreateVote = () => {
     const prevStep = () => setStep((prev) => prev - 1);
   return (
     <>
-    <div className="h-screen flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
+    <div className=" flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
                 <h2 className="text-2xl/7 m-3  font-semibold text-gray-900">Poll Details</h2>
         <div className="border border-gray-300 rounded-md p-4">
         <form>
@@ -107,10 +108,10 @@ const CreateVote = () => {
                         <div className="sm:col-span-8"> 
                           <h2 className='text-2xl/7 m-3  font-semibold text-gray-900'>Add Contestant Details</h2>
                           {/* Add participant  */}
-                           <div>
                             {/* Participant Name */}
                             {/* Alert Box */}
                              {showAlert && <AlertBox  text = "fill all inputs"/>}
+                           <div>
                             {/* Alert Box */}
                            <input
                                 type="text"
@@ -123,7 +124,10 @@ const CreateVote = () => {
                               {/* Participant Name */}
 
                             {/* Participant Detail  */}
-                             <div>
+                             <div className='participant-details-div'>
+                             <label htmlFor="Name" className="block text-lg/6 font-medium text-gray-900 m-3 p-3">
+                                    Participant Details
+                                </label>
                              <input
                                 type="text"
                                 name="details"
@@ -162,13 +166,9 @@ const CreateVote = () => {
                                 onChange={handleChange}
                                 className="w-full mb-2 p-2 border border-gray-300 rounded"
                             />
-                                <button
-                                    type="button"
-                                    onClick={handleAddParticipant}
-                                    className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
-                                    >
-                                    Add participant
-                                    </button>
+                              <div className="add-participant-btn m-6 p-3">
+                                <Button text= "Add Participant" onClick={ handleAddParticipant}/>
+                              </div>
                             {/* Participant Image  */}
 
                            </div>
@@ -184,6 +184,12 @@ const CreateVote = () => {
                             ))}
                           </div>
                           {/* Add participant  */}
+
+                          {/* Paticipant Table */}
+                            <div>
+                                <ParticipantTable/>
+                            </div>
+                          {/* Paticipant Table */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= " < "  onClick={prevStep}/>}
                             {<Button text= " >" onClick={nextStep}/>}
