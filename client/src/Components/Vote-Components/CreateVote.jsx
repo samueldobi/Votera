@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
+import DatePick from './DatePick';
 
 const CreateVote = () => {
     // States
@@ -190,6 +191,14 @@ const CreateVote = () => {
                      {step === 3 && (
                         <div className="sm:col-span-8"> 
 
+                        <h2 classname= "m-6 p-2">Pick Start Date</h2>
+                        <div className="date-picker">
+                            <DatePick/>
+                        </div>
+                        <h2 classname= "m-6 p-2">Pick End Date</h2>
+                        <div className="date-picker">
+                            <DatePick/>
+                        </div>
                         <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= "Prev Step" onClick={prevStep}/>}
                             {<Button text= "Start Poll" />}
