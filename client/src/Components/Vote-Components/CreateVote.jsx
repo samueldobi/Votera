@@ -13,13 +13,13 @@ const CreateVote = () => {
     const [step, setStep] =  useState(1);
     const [participants, setParticipants] =  useState([]);
     const [showAlert, setShowAlert] = useState(false);
+    // State for the poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
         about:''
     });
+      // State for the participant  name and participant details
     const[formData, setFormData] = useState({
-        // pollName:'',
-        // pollDetails:'',
         name: '',
         details:'',
         image:''
@@ -30,17 +30,26 @@ const CreateVote = () => {
        setFormData(updatedForm)
        console.log(updatedForm)
     }
+
     const handleAddParticipant = () => {
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
            setShowAlert(true)
-        // alert('fill all inputs')
             return;
         };
         setShowAlert(false)
-        setParticipants([...participants, formData])
+        // setParticipants([...participants, formData])
+            // Create new participant object
+            const newParticipant ={
+                id: Date.now(),
+                name:formData.name,
+                details:formData.details,
+            }
+        setParticipants((prev)=>[...prev, newParticipant])
         setFormData({name:'', details:'', image:''})
     }
-// 
+ 
+
+    // functions to move to either previous or next slide
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
   return (
@@ -87,7 +96,7 @@ const CreateVote = () => {
                             onChange={(e)=>setFormDetails({...formDetails, about:e.target.value})}
                             placeholder='Describe What the poll is about shortly'
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
-                            defaultValue={''}
+                            
                             />
                         </div>
                         
@@ -125,6 +134,7 @@ const CreateVote = () => {
 
                             {/* Participant Detail  */}
                              <div className='participant-details-div'>
+                       
                              <label htmlFor="Name" className="block text-lg/6 font-medium text-gray-900 m-3 p-3">
                                     Participant Details
                                 </label>
@@ -173,21 +183,22 @@ const CreateVote = () => {
 
                            </div>
                           {/* Add participant  */}
+                       
                           <div className="">
-                            {participants.map((participant, index)=>(
+                            {/* {participants.map((participant, index)=>(
                                 <div className="" key={index}
                                 >
                                     <p>{participant.name}</p>
                                     <p>{participant.details}</p>
                                     {participant.image && <img src={participant.image} alt={participant.name} className="w-24 h-24 mt-2 object-cover rounded" />}
                                 </div>
-                            ))}
+                            ))} */}
                           </div>
                           {/* Add participant  */}
 
                           {/* Paticipant Table */}
                             <div>
-                                <ParticipantTable/>
+                                <ParticipantTable rowDetails={participants}/>
                             </div>
                           {/* Paticipant Table */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
