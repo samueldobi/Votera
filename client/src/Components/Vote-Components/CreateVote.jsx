@@ -8,7 +8,10 @@ const CreateVote = () => {
     // States
     const [step, setStep] =  useState(1);
     const [participants, setParticipants] =  useState([]);
-    // const [formName, setFormName] = useState();
+    const [formDetails, setFormDetails] = useState({
+        name:'',
+        about:''
+    });
     const[formData, setFormData] = useState({
         // pollName:'',
         // pollDetails:'',
@@ -30,12 +33,7 @@ const CreateVote = () => {
         setParticipants([...participants, formData])
         setFormData({name:'', details:'', image:''})
     }
-    // const updateInput = (e) =>{
-    //     setFormData((prev)=>({
-    //         ...prev,
-    //         [e.target.name]:e.target.value
-    //     }))
-    // };
+// 
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
   return (
@@ -61,6 +59,8 @@ const CreateVote = () => {
                                 name="pollname"
                                 type="text"
                                 placeholder="Type the name of the poll"
+                                value={formDetails.name}
+                                onChange={(e)=>setFormDetails({...formDetails, name: e.target.value})}
                                 className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
                             />
                             </div>
@@ -76,6 +76,8 @@ const CreateVote = () => {
                             id="about"
                             name="about"
                             rows={3}
+                            value={formDetails.about}
+                            onChange={(e)=>setFormDetails({...formDetails, about:e.target.value})}
                             placeholder='Dscribe What the poll is about shortly'
                             className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
                             defaultValue={''}
