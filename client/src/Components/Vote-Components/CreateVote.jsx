@@ -10,10 +10,13 @@ import ParticipantTable from './ParticipantTable';
 
 const CreateVote = () => {
     // States
+    // state for changing the step in the multistepper form
     const [step, setStep] =  useState(1);
+    // State for tracking the participants added in the voting poll
     const [participants, setParticipants] =  useState([]);
+    // State for displaying alerts if the input is empty
     const [showAlert, setShowAlert] = useState(false);
-    // State for the poll name and poll details
+    // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
         about:''
@@ -24,13 +27,13 @@ const CreateVote = () => {
         details:'',
         image:''
     })
-    // State Functions
+    // Function to update the input when someoen types in data 
     const handleChange = (e) =>{
        const updatedForm = {...formData, [e.target.name]:e.target.value}
        setFormData(updatedForm)
        console.log(updatedForm)
     }
-
+    // this function checks that the form input is filled or else throws an alert and stops executing further
     const handleAddParticipant = () => {
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
            setShowAlert(true)
@@ -63,6 +66,7 @@ const CreateVote = () => {
                     {/* First page of the poll details form */}
                     {step === 1 && (
                         <div className="sm:col-span-8">
+                            {/* div for alert if no */}
                             {/* Poll Name div */}
                         <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                             Poll Name
@@ -105,7 +109,15 @@ const CreateVote = () => {
 
                         {/* Button Div */}
                         <div className="m-3 p-3">
-                            {<Button text= ">" onClick={nextStep}/>}
+                            {<Button text= ">" onClick={()=>{
+                                
+                                if( formDetails.name === '' || formDetails.about === ''){
+                                    setShowAlert(true);
+                                }
+                                else{
+                                    nextStep();
+                                }
+                            }}/>}
                         </div>
                          {/* Button Div */}
                         </div>)}
