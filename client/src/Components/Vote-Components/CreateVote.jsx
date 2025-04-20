@@ -66,7 +66,9 @@ const CreateVote = () => {
                     {/* First page of the poll details form */}
                     {step === 1 && (
                         <div className="sm:col-span-8">
-                            {/* div for alert if no */}
+                            {/* Alert Box */}
+                            {showAlert && <AlertBox  text = "fill all inputs"/>}
+                            {/* Alert Box */}
                             {/* Poll Name div */}
                         <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                             Poll Name
