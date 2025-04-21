@@ -5,15 +5,15 @@ import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
 import DatePick from './DatePick';
 import AlertBox from './AlertBox';
-import ParticipantTable from './ParticipantTable';
+import ContestantTable from './ContestantTable';
 
 
 const CreateVote = () => {
     // States
     // state for changing the step in the multistepper form
     const [step, setStep] =  useState(1);
-    // State for tracking the participants added in the voting poll
-    const [participants, setParticipants] =  useState([]);
+    // State for tracking the contestants added in the voting poll
+    const [contestants, setContestants] =  useState([]);
     // State for displaying alerts if the input is empty
     const [showAlert, setShowAlert] = useState(false);
     // state for validating that particpants are more than one
@@ -27,7 +27,7 @@ const CreateVote = () => {
         name:'',
         about:''
     });
-      // State for the participant  name and participant details
+      // State for the contestant  name and contestant details
     const[formData, setFormData] = useState({
         name: '',
         details:'',
@@ -41,8 +41,8 @@ const CreateVote = () => {
        setFormData(updatedForm)
        console.log(updatedForm)
     }
-    // this function checks that the participant  form input is filled or else throws an alert and stops executing further
-    const handleAddParticipant = () => {
+    // this function checks that the contestant  form input is filled or else throws an alert and stops executing further
+    const handleAddContestant = () => {
         // Check if the contestant input name and details are empty is empty
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
            setShowAlert(true)
@@ -58,9 +58,9 @@ const CreateVote = () => {
         }
         setCheckNamePattern(false)
 
-      // Check for duplicate participant name
-        const isDuplicate = participants.some(
-            participant => participant.name.trim().toLowerCase() === formData.name.trim().toLowerCase()
+      // Check for duplicate contestant name
+        const isDuplicate = contestants.some(
+            contestant => contestant.name.trim().toLowerCase() === formData.name.trim().toLowerCase()
         )
         if(isDuplicate){
             setShowDuplicate(true)
@@ -68,13 +68,13 @@ const CreateVote = () => {
         }
         setShowDuplicate(false)
       
-              // Create new participant object
-              const newParticipant ={
+              // Create new contestant object
+              const newContestant ={
                 id: Date.now(),
                 name:formData.name,
                 details:formData.details,
             }
-            setParticipants((prev)=>[...prev, newParticipant])
+            setContestants((prev)=>[...prev, newContestant])
         setFormData({name:'', details:'', image:''})
     }
  
@@ -157,11 +157,11 @@ const CreateVote = () => {
                      {step === 2 && (
                         <div className="sm:col-span-8"> 
                           <h2 className='text-2xl/7 m-3  font-semibold text-gray-900'>Add Contestant Details</h2>
-                          {/* Add participant  */}
-                            {/* Participant Name */}
+                          {/* Add contestant  */}
+                            {/* contestant Name */}
                             {/* Alert Box */}
                              {showAlert && <AlertBox  text = "fill all inputs"/>}
-                             {voterAmount && <AlertBox  text = "You must add at least two participants"/>}
+                             {voterAmount && <AlertBox  text = "You must add at least two Contestants"/>}
                              {showDuplicate &&  <AlertBox  text = "Two Contestants cannot have the same name"/>}
                              {checkNamePattern && <AlertBox  text = " Contestant names can only contain letters and numbers"/>}
                            <div>
@@ -174,13 +174,13 @@ const CreateVote = () => {
                                 onChange={handleChange}
                                 className="w-full mb-2 p-2 border border-gray-300 rounded"
                             />
-                              {/* Participant Name */}
+                              {/* contestant Name */}
 
-                            {/* Participant Detail  */}
-                             <div className='participant-details-div'>
+                            {/* contestant Detail  */}
+                             <div className='contestant-details-div'>
                        
                              <label htmlFor="Name" className="block text-lg/6 font-medium text-gray-900 m-3 p-3">
-                                    Participant Details
+                                Contestant Details
                                 </label>
                              <input
                                 type="text"
@@ -191,10 +191,10 @@ const CreateVote = () => {
                                 className="w-full mb-2 p-2 border border-gray-300 rounded"
                             />
                              </div>
-                            {/* Participant Detail  */}
+                            {/* Contestant Detail  */}
 
 
-                            {/* Participant Image  */}
+                            {/* Contestant Image  */}
                             <div className="col-span-full">
                                 <label htmlFor="photo" className="block text-sm/6 font-medium text-gray-900">
                                     Photo
@@ -220,35 +220,27 @@ const CreateVote = () => {
                                 onChange={handleChange}
                                 className="w-full mb-2 p-2 border border-gray-300 rounded"
                             />
-                              <div className="add-participant-btn m-6 p-3">
-                                <Button text= "Add Participant" onClick={ handleAddParticipant}/>
+                            {/* ontestant Image  */}
+                              <div className="add-contestant-btn m-6 p-3">
+                                <Button text= "Add Contestant" onClick={ handleAddContestant}/>
                               </div>
-                            {/* Participant Image  */}
+                            {/* Contestant Image  */}
 
                            </div>
-                          {/* Add participant  */}
+                          {/* Add Contestant  */}
                        
-                          <div className="">
-                            {/* {participants.map((participant, index)=>(
-                                <div className="" key={index}
-                                >
-                                    <p>{participant.name}</p>
-                                    <p>{participant.details}</p>
-                                    {participant.image && <img src={participant.image} alt={participant.name} className="w-24 h-24 mt-2 object-cover rounded" />}
-                                </div>
-                            ))} */}
-                          </div>
-                          {/* Add participant  */}
 
-                          {/* Paticipant Table */}
+                          {/* Add Contestant  */}
+
+                          {/* Contestant Table */}
                             <div>
-                                <ParticipantTable rowDetails={participants}/>
+                                <ContestantTable rowDetails={contestants}/>
                             </div>
-                          {/* Paticipant Table */}
+                          {/* Contestant Table */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= " < "  onClick={prevStep}/>}
                             {<Button text= " >" onClick={()=>{
-                                if(participants.length <= 1 ){                           
+                                if(contestants.length <= 1 ){                           
                                     setVoterAmount(true)
                                 }
                                 else{
