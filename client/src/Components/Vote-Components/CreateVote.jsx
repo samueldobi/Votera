@@ -18,6 +18,8 @@ const CreateVote = () => {
     const [showAlert, setShowAlert] = useState(false);
     // state for validating that particpants are more than one
     const [voterAmount, setVoterAmount] = useState(false);
+    // State to check if there are duplicate contestant names
+    const [showDuplicate, setShowDuplicate] =  useState(false)
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -29,27 +31,37 @@ const CreateVote = () => {
         details:'',
         image:''
     })
-    // Function to update the input when someoen types in data 
+    // Function to update the input when someone types in data 
     const handleChange = (e) =>{
        const updatedForm = {...formData, [e.target.name]:e.target.value}
        setFormData(updatedForm)
        console.log(updatedForm)
     }
-    // this function checks that the form input is filled or else throws an alert and stops executing further
+    // this function checks that the participant  form input is filled or else throws an alert and stops executing further
     const handleAddParticipant = () => {
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
            setShowAlert(true)
             return;
         };
         setShowAlert(false)
-        // setParticipants([...participants, formData])
-            // Create new participant object
-            const newParticipant ={
+       
+      
+
+             // Check for duplicate participant name
+        const isDuplicate = participants.some(
+            participant => participant.name.trim().toLowerCase() === formData.name.trim().toLowerCase()
+        )
+        if(isDuplicate){
+            setShowDuplicate(true)
+            return;
+        }
+              // Create new participant object
+              const newParticipant ={
                 id: Date.now(),
                 name:formData.name,
                 details:formData.details,
             }
-        setParticipants((prev)=>[...prev, newParticipant])
+            setParticipants((prev)=>[...prev, newParticipant])
         setFormData({name:'', details:'', image:''})
     }
  
@@ -137,6 +149,7 @@ const CreateVote = () => {
                             {/* Alert Box */}
                              {showAlert && <AlertBox  text = "fill all inputs"/>}
                              {voterAmount && <AlertBox  text = "You must add at least two participants"/>}
+                             {showDuplicate &&  <AlertBox  text = "Two Contestants cannot have the same name"/>}
                            <div>
                             {/* Alert Box */}
                            <input
