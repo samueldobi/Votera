@@ -16,6 +16,8 @@ const CreateVote = () => {
     const [participants, setParticipants] =  useState([]);
     // State for displaying alerts if the input is empty
     const [showAlert, setShowAlert] = useState(false);
+    // state for validating that particpants are more than one
+    const [voterAmount, setVoterAmount] = useState(false);
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -66,7 +68,9 @@ const CreateVote = () => {
                     {/* First page of the poll details form */}
                     {step === 1 && (
                         <div className="sm:col-span-8">
-                            {/* div for alert if no */}
+                            {/* Alert Box */}
+                            {showAlert && <AlertBox  text = "fill all inputs"/>}
+                            {/* Alert Box */}
                             {/* Poll Name div */}
                         <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                             Poll Name
@@ -132,6 +136,7 @@ const CreateVote = () => {
                             {/* Participant Name */}
                             {/* Alert Box */}
                              {showAlert && <AlertBox  text = "fill all inputs"/>}
+                             {voterAmount && <AlertBox  text = "You must add at least two participants"/>}
                            <div>
                             {/* Alert Box */}
                            <input
@@ -215,7 +220,14 @@ const CreateVote = () => {
                           {/* Paticipant Table */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= " < "  onClick={prevStep}/>}
-                            {<Button text= " >" onClick={nextStep}/>}
+                            {<Button text= " >" onClick={()=>{
+                                if(participants.length <= 1 ){                           
+                                    setVoterAmount(true)
+                                }
+                                else{
+                                    nextStep()
+                                }
+                            }}/>}
                             
                             </div>
                             
