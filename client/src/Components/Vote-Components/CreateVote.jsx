@@ -20,6 +20,8 @@ const CreateVote = () => {
     const [voterAmount, setVoterAmount] = useState(false);
     // State to check if there are duplicate contestant names
     const [showDuplicate, setShowDuplicate] =  useState(false)
+    // State to check if names contain only names and numbers
+    const [ checkNamePattern, setCheckNamePattern] = useState(false)
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -31,6 +33,8 @@ const CreateVote = () => {
         details:'',
         image:''
     })
+    // Regex to check if contestants have only alphabets and numbers in their names.
+    const namePattern =  /^[A-Za-z0-9\s]+$/
     // Function to update the input when someone types in data 
     const handleChange = (e) =>{
        const updatedForm = {...formData, [e.target.name]:e.target.value}
@@ -39,15 +43,22 @@ const CreateVote = () => {
     }
     // this function checks that the participant  form input is filled or else throws an alert and stops executing further
     const handleAddParticipant = () => {
+        // Check if the contestant input name and details are empty is empty
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
            setShowAlert(true)
             return;
         };
         setShowAlert(false)
-       
-      
 
-             // Check for duplicate participant name
+
+        // Check that contestant names only contain letters and numbers
+          if(!namePattern.test(formData.name.trim())){
+            setCheckNamePattern(true)
+            return;
+        }
+        setCheckNamePattern(false)
+
+      // Check for duplicate participant name
         const isDuplicate = participants.some(
             participant => participant.name.trim().toLowerCase() === formData.name.trim().toLowerCase()
         )
@@ -55,6 +66,8 @@ const CreateVote = () => {
             setShowDuplicate(true)
             return;
         }
+        setShowDuplicate(false)
+      
               // Create new participant object
               const newParticipant ={
                 id: Date.now(),
@@ -150,6 +163,7 @@ const CreateVote = () => {
                              {showAlert && <AlertBox  text = "fill all inputs"/>}
                              {voterAmount && <AlertBox  text = "You must add at least two participants"/>}
                              {showDuplicate &&  <AlertBox  text = "Two Contestants cannot have the same name"/>}
+                             {checkNamePattern && <AlertBox  text = " Contestant names can only contain letters and numbers"/>}
                            <div>
                             {/* Alert Box */}
                            <input
