@@ -1,9 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const columns = [
-    // { field: 'id', headerName: 'ID', width: 90 },
+
+
+const ContestantTable = ({rowDetails, handleDelete}) => {
+  const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
     {
       field: 'name',
       headerName: ' Name',
@@ -16,9 +21,20 @@ const columns = [
       width: 150,
       editable: true,
     },
+    {
+    field: 'actions',
+    headerName: 'Delete Contestant',
+    width: 100,
+    renderCell: (params) => (
+      <IconButton
+        color="error"
+        onClick={() => handleDelete(params.row.id)}
+      >
+        <DeleteIcon />
+      </IconButton>
+    ),
+  },
   ];
-
-const ContestantTable = ({rowDetails}) => {
   return (
     <div> <Box sx={{ height: '100%', width: '100%' }}>
     <DataGrid

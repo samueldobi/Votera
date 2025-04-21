@@ -78,7 +78,10 @@ const CreateVote = () => {
         setFormData({name:'', details:'', image:''})
     }
  
-
+    //Delete a contestant
+    const handleDelete = (id) => {
+        setContestants(prev => prev.filter(p => p.id !== id));
+      };
     // functions to move to either previous or next slide
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
@@ -234,7 +237,7 @@ const CreateVote = () => {
 
                           {/* Contestant Table */}
                             <div>
-                                <ContestantTable rowDetails={contestants}/>
+                                <ContestantTable rowDetails={contestants} handleDelete={handleDelete}/>
                             </div>
                           {/* Contestant Table */}
                             <div className="mt-10 flex items-center justify-between gap-x-6">
