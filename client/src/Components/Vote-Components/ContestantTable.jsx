@@ -18,7 +18,7 @@ const columns = [
     },
   ];
 
-const ParticipantTable = ({rowDetails}) => {
+const ContestantTable = ({rowDetails}) => {
   return (
     <div> <Box sx={{ height: '100%', width: '100%' }}>
     <DataGrid
@@ -39,4 +39,4 @@ const ParticipantTable = ({rowDetails}) => {
   )
 }
 
-export default ParticipantTable
+export default ContestantTable
