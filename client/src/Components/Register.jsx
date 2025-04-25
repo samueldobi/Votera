@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from "react"
 import axios from "axios"
+import NewRegister from './Vote-Components/Registered/NewRegister'
 
 const Register = () => {
   //State to store registration details
@@ -9,6 +10,8 @@ const Register = () => {
     username:'',
     password:''
   })
+  // State to switch to login when the user is successfully registered
+  const [registered, setRegistered] = useState(false);
   // Function to update form as user fill the input 
   const handleChange = (e) =>{
     const updatedForm = {...registerForm, [e.target.name]:e.target.value}
@@ -22,6 +25,7 @@ const handleSubmit = async(e) =>{
       const response = await axios.post("http://localhost:5000/api/save-user", registerForm);
       console.log("Response:", response.data);
       setRegisterForm({email:'',username:'',password:''})
+      setRegistered(true)
     } catch (error) {
       console.log("Error getting data", error);
     }
@@ -31,7 +35,10 @@ const handleSubmit = async(e) =>{
   return (
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+      {
+        registered ? <NewRegister text={registerForm.username} />
+        :<div>
+           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
           src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
@@ -127,6 +134,11 @@ const handleSubmit = async(e) =>{
           </a>
         </p>
       </div>
+        </div>
+      }
+     
+
+    
     </div>
   </>
 
