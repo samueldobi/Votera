@@ -19,8 +19,9 @@ const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
     try {
-      const response = await axios.post("http://localhost:5000/api/save-user");
+      const response = await axios.post("http://localhost:5000/api/save-user", registerForm);
       console.log("Response:", response.data);
+      setRegisterForm({email:'',username:'',password:''})
     } catch (error) {
       console.log("Error getting data", error);
     }
@@ -42,7 +43,9 @@ const handleSubmit = async(e) =>{
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form  method="POST" className="space-y-6"   onSubmit={handleSubmit}>
+        <form  method="POST" className="space-y-6"
+          onChange={handleChange}  
+          onSubmit={handleSubmit} >
           <div>
             {/* Label for email */}
             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
@@ -53,9 +56,10 @@ const handleSubmit = async(e) =>{
                 id="email"
                 name="email"
                 type="email"
+                value={registerForm.email}
+                onChange={handleChange}  
                 required
                 autoComplete="email"
-                onChange={handleChange}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
               />
             </div>
@@ -71,9 +75,10 @@ const handleSubmit = async(e) =>{
                 id="username"
                 name="username"
                 type="username"
+                value={registerForm.username}
+                onChange={handleChange}  
                 required
                 autoComplete="username"
-                onChange={handleChange}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
               />
             </div>
@@ -96,9 +101,10 @@ const handleSubmit = async(e) =>{
                 id="password"
                 name="password"
                 type="password"
+                value={registerForm.password}
+                onChange={handleChange}  
                 required
                 autoComplete="current-password"
-                onChange={handleChange}
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
               />
             </div>
