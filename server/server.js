@@ -9,6 +9,8 @@ const User = require('./models/users');
 
 // Middleware
 app.use(cors());
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Connect to mongodb
 
@@ -22,15 +24,23 @@ mongoose.connect(dbURI)
 // }) 
 // Register a new user
 app.post("/api/save-user",  (req, res)=>{  
+    console.log("Request body:", req.body);
+    
+    // Check if req.body exists and has data
+    if (!req.body || Object.keys(req.body).length === 0) {
+        return res.status(400).send({ error: "No data received" });
+    }
+
+    const{ username, email, password} = req.body;
     const user = new User({
-        username: 'king',
-        email:'harry@gmail.com',
-        password:'myguy'
+        username,
+        email,
+        password
     })
     user.save()
     .then((result)=>{
-        res.send(result)
+        res.status(201).send(result);
     }).catch((err)=>{
-        console.log(err)
+        res.status(500).send({ error: "Failed to save user" });
     });
 })
