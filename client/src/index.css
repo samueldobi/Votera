@@ -48,3 +48,6 @@ body {
 .step-indicators{
   margin-left:-6rem;
 }
+.card-register{
+  height:80vh;
+}

@@ -4,6 +4,8 @@ import axios from "axios"
 import NewRegister from './Vote-Components/Registered/NewRegister'
 
 const Register = () => {
+  // API URL FOR BACKEND CALLS
+  const apiUrl = process.env.REACT_APP_API_URL;
   //State to store registration details
   const [registerForm, setRegisterForm] = useState({ 
     email:'',
@@ -22,7 +24,7 @@ const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
     try {
-      const response = await axios.post("http://localhost:5000/api/save-user", registerForm);
+      const response = await axios.post(`${apiUrl}/save-user`, registerForm);
       console.log("Response:", response.data);
       setRegisterForm({email:'',username:'',password:''})
       setRegistered(true)
@@ -36,8 +38,11 @@ const handleSubmit = async(e) =>{
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       {
-        registered ? <NewRegister text={registerForm.username} />
-        :<div>
+        registered 
+        ?
+         <NewRegister text={registerForm.username} />
+        :
+        <div>
            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
           alt="Your Company"
@@ -74,10 +79,10 @@ const handleSubmit = async(e) =>{
 
 
                  {/* Label for Username */}
-            <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+            <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900 mt-4 mb-4">
               Username
             </label>
-            <div className="mt-2 mb-4">
+            <div className="mt-4 mb-4">
               <input
                 id="username"
                 name="username"
@@ -128,8 +133,8 @@ const handleSubmit = async(e) =>{
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">
-          Already have an account?{' '}
-          <a href="/login" className="orange-color font-semibold text-indigo-600 hover:text-indigo-500">
+          Already have an account?
+          <a href="/login" className="orange-color font-semibold mx-2">
             Login
           </a>
         </p>
