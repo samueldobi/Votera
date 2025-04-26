@@ -7,9 +7,16 @@ require('dotenv').config();
 
 // Import user schema
 const User = require('./models/users');
-
+// configure cors to allow  requests from both local development and production frontend
+const corsOptions = {
+    origin: [
+      'http://localhost:3000',
+      'https://votera.vercel.app'
+    ],
+    credentials: true
+  };
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
 
