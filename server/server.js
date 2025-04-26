@@ -11,6 +11,7 @@ const User = require('./models/users');
 const corsOptions = {
     origin: [
       'http://localhost:3000',
+      'http://localhost:5173',
       'https://votera.vercel.app'
     ],
     credentials: true
@@ -26,10 +27,9 @@ mongoose.connect(dbURI)
   .then(() => app.listen(5000, ()=>{console.log("server has started on port 5000")}))
   .catch((err) => console.error("MongoDB connection error:", err));
   
-// set up api
-// app.get("/api", (req,res)=>{ 
-//     res.json({ users: ["john", "twin"]})
-// }) 
+  app.get("/", (req, res) => {
+    res.send("Hello from backend");
+  });
 // Register a new user
 app.post("/api/save-user",  (req, res)=>{  
     console.log("Request body:", req.body);
@@ -42,11 +42,11 @@ app.post("/api/save-user",  (req, res)=>{
     const{ username, email, password} = req.body;
     const user = new User({
         username,
-        email,
+        email,    
         password
     })
     user.save()
-    .then((result)=>{
+    .then((result)=>{   
         res.status(201).send(result);
     }).catch((err)=>{
         res.status(500).send({ error: "Failed to save user" });
