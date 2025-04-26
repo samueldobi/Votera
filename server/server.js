@@ -1,8 +1,9 @@
 const express = require ('express');
 const app = express();
 const mongoose = require('mongoose');
-// const axios =  require('axios');
 const cors = require("cors");
+// .dotenv import
+require('dotenv').config();
 
 // Import user schema
 const User = require('./models/users');
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
 // Connect to mongodb
-
+const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI)
   .then(() => app.listen(5000, ()=>{console.log("server has started on port 5000")}))
   .catch((err) => console.error("MongoDB connection error:", err));

@@ -9,16 +9,16 @@ import Typography from '@mui/material/Typography';
 
 const NewRegister = ({text}) => {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{ minWidth: 40 }} className='sm:mx-auto sm:w-full sm:max-w-sm card-register'>
     <CardContent>
-      <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+      <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 50 }}>
         Congratulations
       </Typography>
       <p>{text}</p>
-      <p>You have successfully Registered</p>
+      <p className='text-2xl'>You have successfully Registered</p>
     </CardContent>
     <CardActions className='flex justify-center'>
-      <a href="/login">
+      <a href="/login" className='orange-color text-xl'>
        Login
       </a>
     </CardActions>
