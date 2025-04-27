@@ -15,7 +15,7 @@ const corsOptions = {
       'https://votera.vercel.app'
     ],
     credentials: true
-  };
+  };     
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json()); 
