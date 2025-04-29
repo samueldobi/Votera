@@ -1,13 +1,13 @@
-const express = require ('express');
+const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
+const userRoutes =  require('./routes/userRoutes');  
 // .dotenv import
 require('dotenv').config();
 
-// Import user schema
-const User = require('./models/users');
-// configure cors to allow  requests from both local development and production frontend
+
+// I configured  cors to allow  requests from both local development and production frontend
 const corsOptions = {
     origin: [
       'http://localhost:3000',
@@ -30,25 +30,5 @@ mongoose.connect(dbURI)
   app.get("/", (req, res) => {
     res.send("Hello from backend");
   });
-// Register a new user
-app.post("/api/save-user",  (req, res)=>{  
-    console.log("Request body:", req.body);
-    
-    // Check if req.body exists and has data
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).send({ error: "No data received" });
-    }
-
-    const{ username, email, password} = req.body;
-    const user = new User({
-        username,
-        email,    
-        password
-    })
-    user.save()
-    .then((result)=>{   
-        res.status(201).send(result);
-    }).catch((err)=>{
-        res.status(500).send({ error: "Failed to save user" });
-    });
-})
+// Route for user registration
+app.use(userRoutes);
