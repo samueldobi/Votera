@@ -16,7 +16,7 @@ const corsOptions = {
     ],
     credentials: true
   };     
-// Middleware
+// Middleware  
 app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
@@ -30,5 +30,5 @@ mongoose.connect(dbURI)
   app.get("/", (req, res) => {
     res.send("Hello from backend");
   });
-// Route for user registration
+// Routes for user registration
 app.use(userRoutes);
