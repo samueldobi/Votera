@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
-const userRoutes =  require('./routes/userRoutes');  
+// const userRoutes =  require('./routes/userRoutes');  
+const authRoutes = require('./routes/authRoutes');
 // .dotenv import
 require('dotenv').config();
 
@@ -31,4 +32,6 @@ mongoose.connect(dbURI)
     res.send("Hello from backend");
   });
 // Routes for user registration
-app.use(userRoutes);
+// app.use(userRoutes);
+app.use(authRoutes);
+ 

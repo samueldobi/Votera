@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+// Package to validate email
+const {isEmail} = require('validator');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -16,11 +18,13 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
+        validate:[isEmail,'Please enter a valid email']
       },
     
       password: {
         type: String,
-        required: [true, 'Password is required.']
+        required: [true, 'Password is required.'],
+        minLength:6,
       },
     
       createdAt: {
