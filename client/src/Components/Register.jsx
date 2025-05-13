@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from "react"
 import axios from "axios"
 import NewRegister from './Vote-Components/Registered/NewRegister'
+import AlertBox from './Vote-Components/AlertBox'
 
 const Register = () => {
   // API URL FOR BACKEND CALLS
@@ -18,18 +19,25 @@ const Register = () => {
   const handleChange = (e) =>{
     const updatedForm = {...registerForm, [e.target.name]:e.target.value}
     setRegisterForm(updatedForm)
-    console.log(updatedForm)
+    // console.log(updatedForm)
   }
+  // State for errors
+  const [formErrors, setFormErrors] = useState({});
 const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
     try {
-      const response = await axios.post(`${apiUrl}/save-user`, registerForm);
+      const response = await axios.post(`${apiUrl}/signup`, registerForm);
       console.log("Response:", response.data);
       setRegisterForm({email:'',username:'',password:''})
       setRegistered(true)
     } catch (error) {
-      console.log("Error getting data", error);
+      // console.log("Error getting data", error);
+      const errors = error.response?.data?.errors;
+      if(errors){
+        console.log(errors.email)
+        setFormErrors(errors.email)
+      }
     }
  
 }
@@ -74,6 +82,9 @@ const handleSubmit = async(e) =>{
                 autoComplete="email"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#e65c00] sm:text-sm/6"
               />
+            </div>
+            <div className="email-error">
+              < AlertBox text={formErrors[0]} />
             </div>
                {/* Label for email */}
 
