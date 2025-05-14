@@ -14,7 +14,7 @@ const NewRegister = ({text}) => {
       <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 50 }}>
         Congratulations
       </Typography>
-      <p>{text}</p>
+      <p className='text-2xl text-red-600' >{text}</p>
       <p className='text-2xl'>You have successfully Registered</p>
     </CardContent>
     <CardActions className='flex justify-center'>
