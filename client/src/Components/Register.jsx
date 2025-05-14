@@ -22,10 +22,16 @@ const Register = () => {
     // console.log(updatedForm)
   }
   // State for errors
-  const [formErrors, setFormErrors] = useState({});
+  const [emailError, setEmailError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  // Handle Form Submission Function
 const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
+  setEmailError('');
+  setUsernameError('');
+  setPasswordError('');
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm);
       console.log("Response:", response.data);
@@ -35,8 +41,19 @@ const handleSubmit = async(e) =>{
       // console.log("Error getting data", error);
       const errors = error.response?.data?.errors;
       if(errors){
-        console.log(errors.email)
-        setFormErrors(errors.email)
+        if(errors.email){
+          console.log(errors.email)
+          setEmailError(typeof errors.email === 'string' ? errors.email : errors.email.message || 'Try another email')
+        }
+        if(errors.username){
+          console.log(errors.username)
+          setUsernameError(typeof errors.username === 'string' ? errors.username : errors.username.message || 'Try another username')
+        }
+        if(errors.password){
+          console.log(errors.password)
+          setPasswordError(typeof errors.password === 'string' ? errors.password : errors.password.message || 'Minimum length of passwords is 6 characters')
+        }
+        
       }
     }
  
@@ -84,7 +101,7 @@ const handleSubmit = async(e) =>{
               />
             </div>
             <div className="email-error">
-              < AlertBox text={formErrors[0]} />
+              { emailError && < AlertBox text= {emailError} /> }
             </div>
                {/* Label for email */}
 
@@ -106,6 +123,9 @@ const handleSubmit = async(e) =>{
               />
             </div>
           </div>
+          <div className="username-error">
+              { usernameError &&  < AlertBox text= {usernameError} /> }
+            </div>
           {/* Label for Username */}
 
           <div>
@@ -132,6 +152,9 @@ const handleSubmit = async(e) =>{
               />
             </div>
           </div>
+          <div className="password-error">
+              { passwordError &&  < AlertBox text= {passwordError} /> }
+            </div>
 
           <div>
             <button
