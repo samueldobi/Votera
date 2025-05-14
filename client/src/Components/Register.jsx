@@ -13,6 +13,8 @@ const Register = () => {
     username:'',
     password:''
   })
+  // State for the username to display after regsitration
+  const [newUsername, setNewUsername] = useState('');
   // State to switch to login when the user is successfully registered
   const [registered, setRegistered] = useState(false);
   // Function to update form as user fill the input 
@@ -29,12 +31,13 @@ const Register = () => {
 const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
-  setEmailError('');
-  setUsernameError('');
-  setPasswordError('');
+  // setEmailError('');
+  // setUsernameError('');
+  // setPasswordError('');
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm);
       console.log("Response:", response.data);
+      setNewUsername(registerForm.username)
       setRegisterForm({email:'',username:'',password:''})
       setRegistered(true)
     } catch (error) {
@@ -65,7 +68,7 @@ const handleSubmit = async(e) =>{
       {
         registered 
         ?
-         <NewRegister text={registerForm.username} />
+         <NewRegister text={newUsername} />
         :
         <div>
            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
