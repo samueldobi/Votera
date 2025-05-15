@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
+// cookie parser plugin
+const cookie = require('cookie-parser');
 // const userRoutes =  require('./routes/userRoutes');  
 const authRoutes = require('./routes/authRoutes');
+const cookieParser = require('cookie-parser');
 // .dotenv import
 require('dotenv').config();
 
@@ -21,6 +24,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+// cookier parser 
+app.use(cookieParser());
 
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;
@@ -31,7 +36,13 @@ mongoose.connect(dbURI)
   app.get("/", (req, res) => {
     res.send("Hello from backend");
   });
-// Routes for user registration
-// app.use(userRoutes);
+  app.get("/set-cookies", (req, res)=>{
+    res.cookie('newUser', false);
+    res.cookie('isEmployee', true, { maxAge:10000 * 60, httpOnly: true,
+      // secure:true;
+    });
+    res.send('Votera  cookies are active');
+  })
+// Routes for user authentication
 app.use(authRoutes);
  
