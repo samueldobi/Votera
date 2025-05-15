@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 // Package to validate email
 const {isEmail} = require('validator');
+// import bcrypt for hashing
+const bcrypt = require('bcrypt');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -32,6 +34,11 @@ const userSchema = new Schema({
         default: Date.now,
       }
 })
-
+// Mongoose hook to hash the password before it is saved to the database
+userSchema.pre('save', async function(next){
+  const userSalt = await bcrypt.genSalt();
+  this.password  = await bcrypt.hash(this.password, userSalt)
+  next();
+})
 const User = mongoose.model('User', userSchema);
 module.exports = User;
