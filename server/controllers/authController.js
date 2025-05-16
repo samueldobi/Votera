@@ -1,5 +1,6 @@
 // Import user schema
 const User = require('../models/users');
+const jwt = require('jsonwebtoken');
 
 // Error Functions
 const handleErrors =(err)=>{
@@ -28,6 +29,18 @@ const handleErrors =(err)=>{
     }
     return errors;
 }
+// maxAge for the jwt token
+const maxAge = 24 * 60 * 60
+// secret string variable
+const secretString = process.env.JWT_SECRET
+// Create JWT Token
+const createToken = (id) =>{
+    return jwt.sign({id}, secretString, {
+        expiresIn: maxAge
+    })
+}
+
+// Controller Function Exports
 module.exports.signup_post = async (req, res)=>{
     // console.log("Request body:", req.body);
     
@@ -39,7 +52,14 @@ module.exports.signup_post = async (req, res)=>{
     const{ username, email, password} = req.body;
     try{
         const newUser = await User.create({username,email,password})
-        res.status(201).json(newUser);
+        const token = createToken(newUser._id)
+        res.cookie('jwt',token, {
+            httpOnly: true, 
+            maxAge: maxAge * 1000,
+            // secure: true,           // Only send over HTTPS
+            // sameSite: 'Strict'   // Helps prevent CSRF 
+        } )
+        res.status(201).json({user: newUser._id});
     }catch(err){
         const errors = handleErrors(err)
         res.status(400).json({errors}); 
