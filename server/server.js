@@ -45,4 +45,6 @@ mongoose.connect(dbURI)
   })
 // Routes for user authentication
 app.use(authRoutes);
- 
+app.get("/work", (req,res)=>{
+  res.send('this is a test route')
+})
