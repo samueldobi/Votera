@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { useState } from "react"
 import axios from "axios"
-import NewRegister from './Vote-Components/Registered/NewRegister'
-import AlertBox from './Vote-Components/AlertBox'
+import NewRegister from '../Components/Vote-Components/Registered/NewRegister'
+import AlertBox from '../Components/Vote-Components/AlertBox'
 
 const Register = () => {
   // API URL FOR BACKEND CALLS

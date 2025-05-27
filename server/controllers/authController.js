@@ -22,10 +22,6 @@ const handleErrors =(err)=>{
         Object.values(err.errors).forEach(({properties})=>{
             errors[properties.path] = properties.message
         })
-        // Object.keys(err.errors).forEach((key) => {
-        //     errors[key] = err.errors[key].properties?.message || err.errors[key].message;
-        //   });
-        
     }
     return errors;
 }
