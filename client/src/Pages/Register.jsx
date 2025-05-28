@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { useState } from "react"
 import axios from "axios"
-import NewRegister from './Vote-Components/Registered/NewRegister'
-import AlertBox from './Vote-Components/AlertBox'
+import NewRegister from '../Components/Vote-Components/Registered/NewRegister'
+import AlertBox from '../Components/Vote-Components/AlertBox'
 
 const Register = () => {
   // API URL FOR BACKEND CALLS
@@ -15,7 +15,7 @@ const Register = () => {
   })
   // State for the username to display after regsitration
   const [newUsername, setNewUsername] = useState('');
-  // State to switch to login when the user is successfully registered
+  // State to show congratulations message when the user is successfully registered
   const [registered, setRegistered] = useState(false);
   // Function to update form as user fill the input 
   const handleChange = (e) =>{
@@ -31,9 +31,6 @@ const Register = () => {
 const handleSubmit = async(e) =>{
   e.preventDefault();
   e.stopPropagation(); 
-  // setEmailError('');
-  // setUsernameError('');
-  // setPasswordError('');
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm);
       console.log("Response:", response.data);
@@ -68,8 +65,8 @@ const handleSubmit = async(e) =>{
       {
         registered 
         ?
-         <NewRegister text={newUsername} />
-        :
+        ( <NewRegister text={newUsername} />)
+        :( 
         <div>
            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
@@ -176,7 +173,8 @@ const handleSubmit = async(e) =>{
           </a>
         </p>
       </div>
-        </div>
+        </div>)
+       
       }
      
 

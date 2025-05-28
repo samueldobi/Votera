@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 // Error Functions
 const handleErrors =(err)=>{
-    console.log(err.errors)
+    console.log(err.message, err.code)
     let errors = {email: '', username:'', password:''}
     // Duplicate email error
     if(err.code ===11000){
@@ -22,10 +22,6 @@ const handleErrors =(err)=>{
         Object.values(err.errors).forEach(({properties})=>{
             errors[properties.path] = properties.message
         })
-        // Object.keys(err.errors).forEach((key) => {
-        //     errors[key] = err.errors[key].properties?.message || err.errors[key].message;
-        //   });
-        
     }
     return errors;
 }
@@ -35,6 +31,10 @@ const maxAge = 24 * 60 * 60
 const secretString = process.env.JWT_SECRET
 // Create JWT Token
 const createToken = (id) =>{
+    if (!secretString) {
+        console.error("ERROR: JWT_SECRET is not defined!");
+        throw new Error("JWT secret key is not configured");
+    }
     return jwt.sign({id}, secretString, {
         expiresIn: maxAge
     })
