@@ -1,8 +1,11 @@
 import React from 'react'
+import CreateVote from '../Components/Vote-Components/CreateVote'
 
 const Vote = () => {
   return (
-    <div>This is a test vote</div>
+    <div>
+      <CreateVote/>
+    </div>
   )
 }
 
