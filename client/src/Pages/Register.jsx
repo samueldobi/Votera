@@ -21,7 +21,6 @@ const Register = () => {
   const handleChange = (e) =>{
     const updatedForm = {...registerForm, [e.target.name]:e.target.value}
     setRegisterForm(updatedForm)
-    // console.log(updatedForm)
   }
   // State for errors
   const [emailError, setEmailError] = useState('');
@@ -30,15 +29,17 @@ const Register = () => {
   // Handle Form Submission Function
 const handleSubmit = async(e) =>{
   e.preventDefault();
-  e.stopPropagation(); 
+  // e.stopPropagation(); 
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm);
       console.log("Response:", response.data);
+      // console.log(" Raw Response:", response);
       setNewUsername(registerForm.username)
       setRegisterForm({email:'',username:'',password:''})
       setRegistered(true)
-    } catch (error) {
-      // console.log("Error getting data", error);
+    } 
+    catch (error) {
+      console.log(error)
       const errors = error.response?.data?.errors;
       if(errors){
         if(errors.email){

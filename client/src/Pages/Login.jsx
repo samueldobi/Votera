@@ -1,6 +1,38 @@
 import React from 'react'
+import { useState } from 'react';
+import axios from "axios"
+import AlertBox from '../Components/Vote-Components/AlertBox';
 
+// Login Component
 const Login = () => {
+  // API URL FOR BACKEND CALLS
+  const apiUrl = import.meta.env.VITE_API_URL;
+  // State for the login form
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password:''
+  });
+  // state to populate the alertbox for login error
+  const[ loginError, setLoginError] = useState('');
+  const handleChange = (e)=>{
+    const updatedForm = {...loginForm, [e.target.name]:e.target.value}
+    setLoginForm(updatedForm)
+  }
+  const handleLogin = async (e)=>{
+    e.preventDefault();
+    // console.log("Login form submitted");
+    try{
+      const response = await axios.post(`${apiUrl}/login`, loginForm);
+      console.log("Success:", response.data);
+      location.assign('/')
+    }catch(error){
+      console.log(error.response.data)
+      const showError = error.response.data 
+      console.log(showError.error)
+      setLoginError(showError.error)
+      // setLoginError(showError)
+    }
+  }
   return (
     <>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -11,12 +43,19 @@ const Login = () => {
           className="mx-auto h-10 w-auto"
         />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-          Sign in to your account
+          Login to your account
         </h2>
+        <div>
+          {loginError && <AlertBox text ={loginError}/>}
+        </div>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="#" method="POST" className="space-y-6">
+        <form  method="POST" 
+          className="space-y-6"
+          onSubmit = { handleLogin }
+          onChange={handleChange}
+        >
           <div>
             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
               Email address
