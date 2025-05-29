@@ -20,17 +20,14 @@ const Login = () => {
   }
   const handleLogin = async (e)=>{
     e.preventDefault();
-    // console.log("Login form submitted");
     try{
       const response = await axios.post(`${apiUrl}/login`, loginForm);
       console.log("Success:", response.data);
       location.assign('/')
     }catch(error){
-      console.log(error.response.data)
+      // console.log(error.response.data)
       const showError = error.response.data 
-      console.log(showError.error)
       setLoginError(showError.error)
-      // setLoginError(showError)
     }
   }
   return (
