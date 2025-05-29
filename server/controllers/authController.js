@@ -66,3 +66,30 @@ module.exports.signup_post = async (req, res)=>{
     }
  
 }  
+module.exports.login_get = async (req, res)=>{
+    const {email, password} = req.body;
+    console.log(email, password) 
+    try{
+        const validUser = await User.findOne({email:email})
+        if(!validUser){
+            return res.status(400).json({error:'incorrect email or password'})
+        }
+        const isMatch = await validUser.comparePassword(password)
+        if(!isMatch){
+            return res.status(400).json({error:'incorrect email or password'})
+        }
+        const userToken = createToken(validUser._id)
+        
+        res.cookie('jwt',userToken, {
+            httpOnly: true, 
+            maxAge: maxAge * 1000,
+            // secure: true,           // Only send over HTTPS
+            // sameSite: 'Strict'   // Helps prevent CSRF 
+        })
+    res.status(200).json({ message: "Login successful", user: validUser._id });
+ 
+    }catch(error){
+        console.log(error)
+        return res.status(500).json({error:'Something went wrong, Please try again'})
+    }
+}
