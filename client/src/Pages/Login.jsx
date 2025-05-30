@@ -21,7 +21,9 @@ const Login = () => {
   const handleLogin = async (e)=>{
     e.preventDefault();
     try{
-      const response = await axios.post(`${apiUrl}/login`, loginForm);
+      const response = await axios.post(`${apiUrl}/login`, loginForm,{
+         withCredentials: true
+      });
       console.log("Success:", response.data);
       location.assign('/')
     }catch(error){
