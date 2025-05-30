@@ -31,7 +31,11 @@ const handleSubmit = async(e) =>{
   e.preventDefault();
   // e.stopPropagation(); 
     try {
-      const response = await axios.post(`${apiUrl}/signup`, registerForm);
+      const response = await axios.post(`${apiUrl}/signup`, registerForm,
+        {
+         withCredentials: true
+      }
+      );
       console.log("Response:", response.data);
       // console.log(" Raw Response:", response);
       setNewUsername(registerForm.username)

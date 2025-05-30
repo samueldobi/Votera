@@ -7,8 +7,13 @@ const cors = require("cors");
 const cookie = require('cookie-parser');
 // const userRoutes =  require('./routes/userRoutes');  
 const authRoutes = require('./routes/authRoutes');
+<<<<<<< HEAD
 const cookieParser = require('cookie-parser');
 // .dotenv import
+=======
+// auth route for user authentication before login
+const requireAuth = require('./middleware/authMiddleware')
+>>>>>>> demo-branch
 
 
 
@@ -35,4 +40,15 @@ mongoose.connect(dbURI)
   .catch((err) => console.error("MongoDB connection error:", err));
   
 
+<<<<<<< HEAD
+=======
+// Routes for user registration
+// app.use(userRoutes);
+app.get('/', (req,res)=>{
+  res.send('You are at the home page')
+})
+>>>>>>> demo-branch
 app.use(authRoutes);
+app.get('/protectedRoutes', (req,res)=>{
+   res.status(200).json({ message: 'Welcome to the protected route!', user: req.user });
+});
