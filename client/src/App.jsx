@@ -10,6 +10,7 @@ import Footer from './Components/Footer'
 import Contact from './Pages/Contact'
 import CreateVote from './Components/Vote-Components/CreateVote'
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import ProtectedRoutes from './Components/ProtectedRoutes'
 
 function App() {
   
@@ -21,11 +22,16 @@ function App() {
       <div className='content-body'>
         <Routes>
           <Route path='/' element= {<Home/>}/>
-          <Route path='/vote' element= {<Vote/>}/>
           <Route path='/login' element= {<Login/>}/>
           <Route path='/register' element= {<Register/>}/>
           <Route path='/contact' element= {<Contact/>}/>
-          <Route path='/create-vote' element= {<CreateVote/>}/>
+          {/* Protected Routes */}
+          <Route path = 'protectedRoutes' element={<ProtectedRoutes/>}>
+            <Route path='vote' element= {<Vote/>}/>
+            <Route path='create-vote' element= {<CreateVote/>}/>
+          </Route>
+          {/* Protected Routes */}
+
           <Route path='*' element= {<Notfound/>}/>
         </Routes>
         <Footer/>
