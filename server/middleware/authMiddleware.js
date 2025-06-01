@@ -12,6 +12,7 @@ const requireAuth = (req, res, next)=>{
                  return res.status(401).json({ message: 'Unauthorized: Invalid token' });
             }else{
                 console.log(decodedToken);
+                res.status(200).json({ message: 'Authorized: Valid token' });
                 next();
             }
         })
