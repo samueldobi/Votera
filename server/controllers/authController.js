@@ -94,7 +94,7 @@ module.exports.login_get = async (req, res)=>{
     }
 }
 module.exports.logout_post = (req, res)=>{
-    res.cookie('jms', '', {
+    res.cookie('jwt', '', {
         httpOnly: true, 
         // secure: true,
         // sameSite: 'None',
