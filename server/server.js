@@ -49,6 +49,6 @@ app.get('/', (req,res)=>{
 })
 >>>>>>> demo-branch
 app.use(authRoutes);
-app.get('/protectedRoutes', (req,res)=>{
-   res.status(200).json({ message: 'Welcome to the protected route!', user: req.user });
+app.get('/protectedRoutes', requireAuth, (req,res)=>{
+   res.status(200).json({ message: 'Success, User Verified', user: req.user });
 });

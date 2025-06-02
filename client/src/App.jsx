@@ -26,7 +26,7 @@ function App() {
           <Route path='/register' element= {<Register/>}/>
           <Route path='/contact' element= {<Contact/>}/>
           {/* Protected Routes */}
-          <Route path = 'protectedRoutes' element={<ProtectedRoutes/>}>
+          <Route  element={<ProtectedRoutes/>}>
             <Route path='vote' element= {<Vote/>}/>
             <Route path='create-vote' element= {<CreateVote/>}/>
           </Route>
