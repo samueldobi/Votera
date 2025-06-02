@@ -33,9 +33,7 @@ const Login = () => {
       });
       console.log("Success:", response.data);
       redirectAfterAuth();
-      // navigate(from, { replace: true });
     }catch(error){
-      // console.log(error.response.data)
       const showError = error.response.data 
       setLoginError(showError.error)
     }

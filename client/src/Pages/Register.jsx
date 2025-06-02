@@ -29,7 +29,6 @@ const Register = () => {
   // Handle Form Submission Function
 const handleSubmit = async(e) =>{
   e.preventDefault();
-  // e.stopPropagation(); 
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm,
         {
@@ -37,7 +36,6 @@ const handleSubmit = async(e) =>{
       }
       );
       console.log("Response:", response.data);
-      // console.log(" Raw Response:", response);
       setNewUsername(registerForm.username)
       setRegisterForm({email:'',username:'',password:''})
       setRegistered(true)
