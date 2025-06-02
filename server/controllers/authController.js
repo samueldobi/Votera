@@ -93,3 +93,12 @@ module.exports.login_get = async (req, res)=>{
         return res.status(500).json({error:'Something went wrong, Please try again'})
     }
 }
+module.exports.logout_post = (req, res)=>{
+    res.cookie('jms', '', {
+        httpOnly: true, 
+        // secure: true,
+        // sameSite: 'None',
+        maxAge: 1,
+    })
+    res.status(200).json({success:'User logged out succesfully'})
+}
