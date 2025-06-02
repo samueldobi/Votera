@@ -6,8 +6,8 @@ const cors = require("cors");
 // const userRoutes =  require('./routes/userRoutes');  
 const authRoutes = require('./routes/authRoutes');
 // auth route for user authentication before login
-const requireAuth = require('./middleware/authMiddleware')
-
+const cookieParser = require('cookie-parser');
+const {requireAuth} = require('./middleware/authMiddleware')
 
 
 // I configured  cors to allow  requests from both local development and production frontend
@@ -23,6 +23,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+app.use(cookieParser());
+
 
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;

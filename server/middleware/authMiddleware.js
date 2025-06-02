@@ -8,15 +8,15 @@ const requireAuth = (req, res, next)=>{
     if(token){
         jwt.verify(token, secretString, (err, decodedToken)=>{
             if(err){
-                console.log(err.message)
+                // console.log(err.message)
                  return res.status(401).json({ message: 'Unauthorized: Invalid token' });
             }else{
                 req.user = decodedToken;
-                console.log(decodedToken);
+                // console.log(decodedToken);
                 next();
             }
         })
-    }else{
+    }else{  
          return res.status(401).json({ message: 'Unauthorized: No token found' });
     }
 }
