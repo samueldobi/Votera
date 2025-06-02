@@ -42,8 +42,6 @@ const createToken = (id) =>{
 
 // Controller Function Exports
 module.exports.signup_post = async (req, res)=>{
-    // console.log("Request body:", req.body);
-    
     // Check if req.body exists and has data
     if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).send({ error: "No data received" });

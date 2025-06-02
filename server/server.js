@@ -3,10 +3,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
-// const userRoutes =  require('./routes/userRoutes');  
 const authRoutes = require('./routes/authRoutes');
-// auth route for user authentication before login
 const cookieParser = require('cookie-parser');
+// auth route for user authentication before login
 const {requireAuth} = require('./middleware/authMiddleware')
 
 
@@ -25,16 +24,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(cookieParser());
 
-
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI)
   .then(() => app.listen(5000, ()=>{console.log("server has started on port 5000")}))
   .catch((err) => console.error("MongoDB connection error:", err));
   
-
 // Routes for user registration
-// app.use(userRoutes);
 app.get('/', (req,res)=>{
   res.send('You are at the home page')
 })
