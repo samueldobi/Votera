@@ -12,9 +12,14 @@ const cookieParser = require('cookie-parser');
 // .dotenv import
 =======
 // auth route for user authentication before login
+<<<<<<< HEAD
 const requireAuth = require('./middleware/authMiddleware')
 >>>>>>> demo-branch
 
+=======
+const cookieParser = require('cookie-parser');
+const {requireAuth} = require('./middleware/authMiddleware')
+>>>>>>> demo-branch
 
 
 // I configured  cors to allow  requests from both local development and production frontend
@@ -30,8 +35,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+<<<<<<< HEAD
 // cookier parser 
 app.use(cookieParser());
+=======
+app.use(cookieParser());
+
+>>>>>>> demo-branch
 
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;

@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react';
 import axios from "axios"
 import AlertBox from '../Components/Vote-Components/AlertBox';
+// import { useNavigate, useLocation } from 'react-router-dom';
+import { useRedirectAfterAuth } from '../hooks/useRedirectAfterAuth';
 
 // Login Component
 const Login = () => {
@@ -12,7 +14,12 @@ const Login = () => {
     email: '',
     password:''
   });
-  // state to populate the alertbox for login error
+  // Use Location
+  const redirectAfterAuth = useRedirectAfterAuth('/');
+  // const location = useLocation();
+  // const navigate = useNavigate();
+  // const from = location.state?.from?.pathname || '/dashboard'; // or any fallback
+    // state to populate the alertbox for login error
   const[ loginError, setLoginError] = useState('');
   const handleChange = (e)=>{
     const updatedForm = {...loginForm, [e.target.name]:e.target.value}
@@ -25,7 +32,8 @@ const Login = () => {
          withCredentials: true
       });
       console.log("Success:", response.data);
-      location.assign('/')
+      redirectAfterAuth();
+      // navigate(from, { replace: true });
     }catch(error){
       // console.log(error.response.data)
       const showError = error.response.data 
