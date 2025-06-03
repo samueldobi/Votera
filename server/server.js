@@ -6,7 +6,7 @@ const cors = require("cors");
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 // auth route for user authentication before login
-const {requireAuth} = require('./middleware/authMiddleware')
+const {requireAuth, checkUser} = require('./middleware/authMiddleware')
 
 
 // I configured  cors to allow  requests from both local development and production frontend
@@ -31,10 +31,11 @@ mongoose.connect(dbURI)
   .catch((err) => console.error("MongoDB connection error:", err));
   
 // Routes for user registration
-app.get('/', (req,res)=>{
-  res.send('You are at the home page')
-})
 app.use(authRoutes);
+app.use(checkUser)
+// app.get('*',checkUser,(req,res,next)=>{
+//    next();
+// } );
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 });

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const User = require('../models/users');
 
 
 const secretString = process.env.JWT_SECRET
@@ -20,4 +21,26 @@ const requireAuth = (req, res, next)=>{
     }
 }
 
-module.exports = {requireAuth};
+// Check current user
+const checkUser =  (req, res, next) =>{
+    const token = req.cookies.jwt
+    if(token){
+        jwt.verify(token, secretString, async (err, decodedToken)=>{
+            if(err){
+                res.locals.user = null;
+                next();
+            }else{
+                // req.user = decodedToken;
+                console.log(decodedToken)
+                let user = await User.findById(decodedToken.id)
+                res.locals.user = user;
+                next();
+            }
+        })
+    }else{  
+        res.locals.user = null;
+        next();
+    }
+}
+
+module.exports = {requireAuth, checkUser};
