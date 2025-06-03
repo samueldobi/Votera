@@ -10,10 +10,14 @@ const cookieParser = require('cookie-parser');
 
 // auth route for user authentication before login
 <<<<<<< HEAD
+<<<<<<< HEAD
 const requireAuth = require('./middleware/authMiddleware')
 >>>>>>> demo-branch
 
 
+=======
+const {requireAuth, checkUser} = require('./middleware/authMiddleware')
+>>>>>>> demo-branch
 
 
 // I configured  cors to allow  requests from both local development and production frontend
@@ -41,10 +45,11 @@ mongoose.connect(dbURI)
   
 
 // Routes for user registration
-app.get('/', (req,res)=>{
-  res.send('You are at the home page')
-})
 app.use(authRoutes);
+app.use(checkUser)
+// app.get('*',checkUser,(req,res,next)=>{
+//    next();
+// } );
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 });

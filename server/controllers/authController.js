@@ -100,3 +100,17 @@ module.exports.logout_post = (req, res)=>{
     })
     res.status(200).json({success:'User logged out succesfully'})
 }
+module.exports.get_current_user = (req, res)=>{
+        if (res.locals.user) {
+        res.json({ 
+            success: true, 
+            user: {
+                id: res.locals.user._id,
+                username: res.locals.user.username,
+                email: res.locals.user.email
+            }
+        });
+    } else {
+        res.json({ success: false, user: null });
+    }
+}
