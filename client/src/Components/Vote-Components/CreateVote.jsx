@@ -1,9 +1,10 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
 import DatePick from './DatePick';
+import dayjs from 'dayjs';
 import AlertBox from './AlertBox';
 import ContestantTable from './ContestantTable';
 
@@ -22,6 +23,9 @@ const CreateVote = () => {
     const [showDuplicate, setShowDuplicate] =  useState(false)
     // State to check if names contain only names and numbers
     const [ checkNamePattern, setCheckNamePattern] = useState(false)
+    // States for Dates
+    const [startDate, setStartDate] = React.useState(dayjs());
+    const [endDate, setEndDate] = React.useState(dayjs());
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -33,14 +37,29 @@ const CreateVote = () => {
         details:'',
         image:''
     })
+    // State for all the form data
+    const[pollData, setPollData] = useState({
+        pollName:'',
+        pollAbout:'',
+        pollContestant:[],
+        startDate: null,
+        endDate:null
+    })
     // Regex to check if contestants have only alphabets and numbers in their names.
     const namePattern =  /^[A-Za-z0-9\s]+$/
     // Function to update the input when someone types in data 
     const handleChange = (e) =>{
        const updatedForm = {...formData, [e.target.name]:e.target.value}
        setFormData(updatedForm)
-       console.log(updatedForm)
+    //    console.log(formDetails)
     }
+//     useEffect(() => {
+//     console.log('Updated contestants:', JSON.stringify(contestants));
+// }, [contestants]);
+// useEffect(() => {
+//   console.log("Start Date:", startDate.toString());
+//   console.log("End Date:", endDate.toString());
+// }, [startDate, endDate]);
     // this function checks that the contestant  form input is filled or else throws an alert and stops executing further
     const handleAddContestant = () => {
         // Check if the contestant input name and details are empty is empty
@@ -57,6 +76,7 @@ const CreateVote = () => {
             return;
         }
         setCheckNamePattern(false)
+     
 
       // Check for duplicate contestant name
         const isDuplicate = contestants.some(
@@ -71,6 +91,7 @@ const CreateVote = () => {
               // Create new contestant object
               const newContestant ={
                 id: Date.now(),
+                // id: `${Date.now()}-${Math.random()}`
                 name:formData.name,
                 details:formData.details,
             }
@@ -85,6 +106,18 @@ const CreateVote = () => {
     // functions to move to either previous or next slide
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
+    // Handle the submission of the final poll data 
+    const handleSubmit = () =>{
+        const updatedPoll ={
+            pollName:formDetails.name,
+            pollAbout:formDetails.about,
+            pollContestants:contestants,
+            startDate: startDate.toDate(),
+            endDate: endDate.toDate()
+        }
+        setPollData(updatedPoll)
+        console.log(JSON.stringify(pollData))
+    }
   return (
     <>
     <div className=" flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
@@ -264,15 +297,23 @@ const CreateVote = () => {
 
                         <h2 className= "m-6 p-2">Pick Start Date</h2>
                         <div className="date-picker">
-                            <DatePick/>
+                            <DatePick
+                                selectedDate={startDate}
+                                onDateChange={setStartDate}
+                                pickerLabel="Start Date"
+                            />
                         </div>
                         <h2 className= "m-6 p-2">Pick End Date</h2>
                         <div className="date-picker">
-                            <DatePick/>
+                            <DatePick
+                                selectedDate={endDate}
+                                onDateChange={setEndDate}
+                                pickerLabel="End Date"
+                            />
                         </div>
                         <div className="mt-10 flex items-center justify-between gap-x-6">
                             {<Button text= "<" onClick={prevStep}/>}
-                            {<Button text= "Start Poll" />}
+                            {<Button text= "Start Poll"  onClick ={handleSubmit}/>}
                           
                           </div>
                         </div>

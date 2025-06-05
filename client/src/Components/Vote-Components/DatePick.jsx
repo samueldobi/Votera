@@ -6,15 +6,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker  } from '@mui/x-date-pickers/DateTimePicker';
 import { TextField } from '@mui/material';
 
-const DatePick = () => {
-  const [value, setValue] = React.useState(dayjs());
+const DatePick = ({selectedDate, onDateChange, pickerLabel}) => {
+  // const [value, setValue] = React.useState(dayjs());
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateTimePicker label="" 
+      <DateTimePicker 
+        label={pickerLabel}
         // label="Pick a date"
-        value={value}
-        onChange={(newValue) => setValue(newValue)}
+        value={selectedDate}
+        onChange={(newValue) => onDateChange(newValue)}
         slots={{ textField: TextField }}
         enableAccessibleFieldDOMStructure={false}
       />
