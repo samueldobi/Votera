@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import axios from "axios"
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import Button from '../Button';
@@ -10,6 +11,8 @@ import ContestantTable from './ContestantTable';
 
 
 const CreateVote = () => {
+      // API URL FOR BACKEND CALLS
+    const apiUrl = import.meta.env.VITE_API_URL;
     // States
     // state for changing the step in the multistepper form
     const [step, setStep] =  useState(1);
@@ -53,14 +56,8 @@ const CreateVote = () => {
        setFormData(updatedForm)
     //    console.log(formDetails)
     }
-//     useEffect(() => {
-//     console.log('Updated contestants:', JSON.stringify(contestants));
-// }, [contestants]);
-// useEffect(() => {
-//   console.log("Start Date:", startDate.toString());
-//   console.log("End Date:", endDate.toString());
-// }, [startDate, endDate]);
-    // this function checks that the contestant  form input is filled or else throws an alert and stops executing further
+
+    // Check that the contestant form input is filled
     const handleAddContestant = () => {
         // Check if the contestant input name and details are empty is empty
         if(formData.name.trim() === '' ||  formData.details.trim() === ''){
@@ -107,16 +104,29 @@ const CreateVote = () => {
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
     // Handle the submission of the final poll data 
-    const handleSubmit = () =>{
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
         const updatedPoll ={
-            pollName:formDetails.name,
-            pollAbout:formDetails.about,
-            pollContestants:contestants,
+            name:formDetails.name,
+            about:formDetails.about,
+            contestants: contestants.map(contestant => ({
+            name: contestant.name,
+            about: contestant.details,         // "details" → "about"
+            picture: contestant.image || ""    // make sure picture exists
+            })),
             startDate: startDate.toDate(),
             endDate: endDate.toDate()
         }
         setPollData(updatedPoll)
         console.log(JSON.stringify(pollData))
+        try{
+            const response = await axios.post(`${apiUrl}/savepolldetails`, updatedPoll,{
+            withCredentials: true
+      });
+      console.log(response)
+        }catch(err){
+            console.log(err)
+        }
     }
   return (
     <>

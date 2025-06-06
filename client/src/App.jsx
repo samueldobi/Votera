@@ -3,6 +3,7 @@ import './App.css'
 import Navbar from './Components/Navbar'
 import Home from './Pages/Home'
 import Vote from './Pages/Vote'
+import Votepage from './Pages/Votepage'
 import Login from './Pages/Login'
 import Register from './Pages/Register'
 import Notfound from './Pages/Notfound'
@@ -29,6 +30,7 @@ function App() {
           <Route  element={<ProtectedRoutes/>}>
             <Route path='vote' element= {<Vote/>}/>
             <Route path='create-vote' element= {<CreateVote/>}/>
+            <Route path='votepage' element= {<Votepage/>}/>
           </Route>
           {/* Protected Routes */}
 
