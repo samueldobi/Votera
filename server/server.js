@@ -32,10 +32,9 @@ mongoose.connect(dbURI)
   
 // Routes for user registration
 app.use(authRoutes);
-app.use(checkUser)
-// app.get('*',checkUser,(req,res,next)=>{
-//    next();
-// } );
+app.get('/', checkUser, (req, res) => {
+  res.json(res.locals.user); // Send the user object as JSON
+});
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 });

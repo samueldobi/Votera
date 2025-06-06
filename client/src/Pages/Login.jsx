@@ -16,9 +16,6 @@ const Login = () => {
   });
   // Use Location
   const redirectAfterAuth = useRedirectAfterAuth('/');
-  // const location = useLocation();
-  // const navigate = useNavigate();
-  // const from = location.state?.from?.pathname || '/dashboard'; // or any fallback
     // state to populate the alertbox for login error
   const[ loginError, setLoginError] = useState('');
   const handleChange = (e)=>{

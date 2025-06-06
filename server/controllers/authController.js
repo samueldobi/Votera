@@ -1,6 +1,7 @@
 // Import user schema
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
+const Poll = require('../models/polldetails')
 
 // Error Functions
 const handleErrors =(err)=>{
@@ -112,5 +113,25 @@ module.exports.get_current_user = (req, res)=>{
         });
     } else {
         res.json({ success: false, user: null });
+    }
+}
+module.exports.save_poll_details = async ( req, res)=>{
+    console.log(req.body);
+    try{
+        const pollData = req.body
+        const newPollData = new Poll(pollData);
+        const updatedPoll = await newPollData.save();
+        res.status(201).json(updatedPoll)
+    }catch(err){
+        console.error('Error saving poll:', err);
+        res.status(500).json({ error: 'Failed to save poll' });
+    }
+}
+module.exports.get_poll_details = async ( req,res) =>{
+    console.log(req.body)
+    try{
+        // 
+    }catch(err){
+        console.log(err)
     }
 }
