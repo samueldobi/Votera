@@ -30,7 +30,7 @@ function App() {
           <Route  element={<ProtectedRoutes/>}>
             <Route path='vote' element= {<Vote/>}/>
             <Route path='create-vote' element= {<CreateVote/>}/>
-            <Route path='votepage' element= {<Votepage/>}/>
+            <Route path='votepage/:id' element= {<Votepage/>}/>
           </Route>
           {/* Protected Routes */}
 

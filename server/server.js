@@ -37,4 +37,4 @@ app.get('/', checkUser, (req, res) => {
 });
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
-});
+}); 
