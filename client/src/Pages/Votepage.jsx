@@ -1,94 +1,59 @@
 import React from 'react';
 import Radiobtn from '../Components/Vote-Components/Radiobtn';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom'; // to get ID from the URL
 
 const Votepage = () => {
-  const people = [
-  {
-    name: 'Leslie Alexander',
-    email: 'leslie.alexander@example.com',
-    role: 'Co-Founder / CEO',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Michael Foster',
-    email: 'michael.foster@example.com',
-    role: 'Co-Founder / CTO',
-    imageUrl:
-      'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Dries Vincent',
-    email: 'dries.vincent@example.com',
-    role: 'Business Relations',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-  },
-  {
-    name: 'Lindsay Walton',
-    email: 'lindsay.walton@example.com',
-    role: 'Front-end Developer',
-    imageUrl:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Courtney Henry',
-    email: 'courtney.henry@example.com',
-    role: 'Designer',
-    imageUrl:
-      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: '3h ago',
-    lastSeenDateTime: '2023-01-23T13:23Z',
-  },
-  {
-    name: 'Tom Cook',
-    email: 'tom.cook@example.com',
-    role: 'Director of Product',
-    imageUrl:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    lastSeen: null,
-  },
-]
+  // API URL FOR BACKEND REQUESTS
+ const apiUrl = import.meta.env.VITE_API_URL;
+  const { id } = useParams(); // poll ID from the route
+  const [poll, setPoll] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPoll = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/getpolldetails/${id}`);
+        setPoll(response.data);
+      } catch (err) {
+        console.error("Error fetching poll:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchPoll();
+    }
+  }, [id, apiUrl]);
+
+  if (loading) return <p>Loading poll details...</p>;
+  if (!poll) return <p>No poll found.</p>;
 
   return (
-    <div className='m-8 p-8'>
-      <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <li key={person.email} className="flex justify-between gap-x-6 py-5">
-          <div className="flex min-w-0 gap-x-4">
-            <img alt="" src={person.imageUrl} className="size-12 flex-none rounded-full bg-gray-50" />
-            <div className="min-w-0 flex-auto">
-              <p className="text-sm/6 font-semibold text-gray-900">{person.name}</p>
-              <p className="mt-1 truncate text-xs/5 text-gray-500">{person.email}</p>
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
+      <p className="mb-6 text-gray-700">{poll.about}</p>
+
+      <h2 className="text-xl font-semibold mb-4">Contestants:</h2>
+      <ul className="grid gap-4">
+        {poll.contestants.map((contestant, index) => (
+          <li key={index} className="flex items-center gap-4 bg-white shadow p-4 rounded-lg">
+            <img
+              className="h-16 w-16 rounded-full object-cover"
+              src={contestant.picture || 'https://via.placeholder.com/64'}
+              alt={contestant.name}
+            />
+            <div>
+              <p className="text-lg font-medium">{contestant.name}</p>
+              <p className="text-gray-600 text-sm">{contestant.about}</p>
             </div>
-          </div>
-          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm/6 text-gray-900"><Radiobtn/></p>
-            {person.lastSeen ? (
-              <p className="mt-1 text-xs/5 text-gray-500">
-                Last seen <time dateTime={person.lastSeenDateTime}>{person.lastSeen}</time>
-              </p>
-            ) : (
-              <div className="mt-1 flex items-center gap-x-1.5">
-                <div className="flex-none rounded-full bg-emerald-500/20 p-1">
-                  <div className="size-1.5 rounded-full bg-emerald-500" />
-                </div>
-                <p className="text-xs/5 text-gray-500">Online</p>
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
+          </li>
+        ))}
+      </ul>
     </div>
-  )
+  );
 }
 
 export default Votepage

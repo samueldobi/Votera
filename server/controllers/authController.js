@@ -128,10 +128,17 @@ module.exports.save_poll_details = async ( req, res)=>{
     }
 }
 module.exports.get_poll_details = async ( req,res) =>{
-    console.log(req.body)
-    try{
-        // 
-    }catch(err){
-        console.log(err)
+    try {
+        const { id } = req.params; // or req.query.id if using query params
+        const poll = await Poll.findById(id);
+        
+        if (!poll) {
+            return res.status(404).json({ error: 'Poll not found' });
+        }
+        
+        res.status(200).json(poll);
+    } catch (err) {
+        console.error('Error fetching poll:', err);
+        res.status(500).json({ error: 'Failed to fetch poll' });
     }
 }

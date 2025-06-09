@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios"
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
@@ -103,6 +104,8 @@ const CreateVote = () => {
     // functions to move to either previous or next slide
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
+    // Initialize use navigate
+    const navigate = useNavigate(); 
     // Handle the submission of the final poll data 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -122,7 +125,10 @@ const CreateVote = () => {
         try{
             const response = await axios.post(`${apiUrl}/savepolldetails`, updatedPoll,{
             withCredentials: true
-      });
+            });
+            const pollId = response.data._id
+            navigate(`/votepage/${pollId}`)
+            console.log(pollId)
       console.log(response)
         }catch(err){
             console.log(err)
