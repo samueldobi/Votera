@@ -14,6 +14,10 @@ const contestantSchema = new mongoose.Schema({
   picture: {
     type: String,
     required: false,
+  },
+    votes: {
+    type: Number,
+    default: 0, // starts at zero
   }
 }, { _id: true }); // auto-generate _id for each contestant
 

@@ -5,6 +5,10 @@ const mongoose = require('mongoose');
 const cors = require("cors");
 const authRoutes = require('./routes/authRoutes');
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+const pollRoutes = require('./routes/pollRoutes')
+>>>>>>> demo-branch
 const cookieParser = require('cookie-parser');
 // .dotenv import
 
@@ -46,9 +50,13 @@ mongoose.connect(dbURI)
 
 // Routes for user registration
 app.use(authRoutes);
+// Routes for poll functions
+app.use(pollRoutes);
+// To check if the user is logged in and verified
 app.get('/', checkUser, (req, res) => {
   res.json(res.locals.user); // Send the user object as JSON
 });
+// To prevent non users from accessing certain pages
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 }); 

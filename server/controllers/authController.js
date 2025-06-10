@@ -116,7 +116,7 @@ module.exports.get_current_user = (req, res)=>{
     }
 }
 module.exports.save_poll_details = async ( req, res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     try{
         const pollData = req.body
         const newPollData = new Poll(pollData);
@@ -131,12 +131,14 @@ module.exports.get_poll_details = async ( req,res) =>{
     try {
         const { id } = req.params; // or req.query.id if using query params
         const poll = await Poll.findById(id);
+       
         
         if (!poll) {
             return res.status(404).json({ error: 'Poll not found' });
         }
         
         res.status(200).json(poll);
+         console.log(poll)
     } catch (err) {
         console.error('Error fetching poll:', err);
         res.status(500).json({ error: 'Failed to fetch poll' });
