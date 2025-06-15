@@ -10,4 +10,5 @@ authRouter.post('/logout', authController.logout_post);
 authRouter.get('/getuser', authController.get_current_user);
 authRouter.post('/savepolldetails', authController.save_poll_details);
 authRouter.get('/getpolldetails/:id', authController.get_poll_details);
+authRouter.post('/vote', authController.add_vote);
 module.exports = authRouter;

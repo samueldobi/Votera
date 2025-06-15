@@ -26,11 +26,12 @@ function App() {
           <Route path='/login' element= {<Login/>}/>
           <Route path='/register' element= {<Register/>}/>
           <Route path='/contact' element= {<Contact/>}/>
+          <Route path='votepage/:id' element= {<Votepage/>}/>
           {/* Protected Routes */}
           <Route  element={<ProtectedRoutes/>}>
             <Route path='vote' element= {<Vote/>}/>
             <Route path='create-vote' element= {<CreateVote/>}/>
-            <Route path='votepage/:id' element= {<Votepage/>}/>
+
           </Route>
           {/* Protected Routes */}
 
