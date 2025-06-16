@@ -46,12 +46,22 @@ const submitVote = async() =>{
         pollId: id,
         contestantId: selectedContestantId,
       });
+        // if voting is succesfull
+        localStorage.setItem(`hasVoted_${poll._id}`, 'true');
+        setHasVoted(true);
       console.log("Vote successful:", response.data);
-      console.log('button clicked')
     }catch(err){
       console.log(err);
     }
+
 }
+// Check if the user has voted
+useEffect(() => {
+  const votedFlag = localStorage.getItem(`hasVoted_${id}`);
+  if (votedFlag === 'true') {
+    setHasVoted(true);
+  }
+}, [id]);
 
   if (loading) return
   <div className='flex items-center'>
