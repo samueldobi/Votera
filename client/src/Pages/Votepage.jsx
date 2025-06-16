@@ -13,6 +13,7 @@ const Votepage = () => {
   const [poll, setPoll] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedContestantId, setSelectedContestantId] = useState(null);
+  const [hasVoted, setHasVoted] = useState(false)
 
   // Fetch the poll details
   useEffect(() => {
@@ -20,7 +21,7 @@ const Votepage = () => {
       try {
         const response = await axios.get(`${apiUrl}/getpolldetails/${id}`);
         setPoll(response.data);
-        // console.log(response.data)
+        console.log(response.data)
       } catch (err) {
         console.error("Error fetching poll:", err);
       } finally {
@@ -35,12 +36,12 @@ const Votepage = () => {
   }, [id, apiUrl]);
 // send the result of the vote to the backend
 const submitVote = async() =>{
+  setHasVoted(true);
     if (!selectedContestantId) {
     alert("Please select a contestant before voting.");
     return;
   }
    try{
-    // console.log(`${apiUrl}/api/vote`, { id, selectedContestantId });
       const response = await axios.post(`${apiUrl}/vote`,{
         pollId: id,
         contestantId: selectedContestantId,
@@ -59,7 +60,33 @@ const submitVote = async() =>{
   if (!poll) return <p>No poll found.</p>;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    hasVoted ?(
+       <div>
+         <div className="max-w-3xl mx-auto px-4 py-8">
+          <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
+                 <ul className="grid gap-4">
+        {poll.contestants.map((contestant, index) => (
+          <li key={index} className="flex items-center justify-between gap-4 bg-white shadow p-4 rounded-lg">
+            <img
+              className="h-16 w-16 rounded-full object-cover"
+              src={contestant.picture || 'https://via.placeholder.com/64'}
+              alt={contestant.name}
+            />
+            <div>
+              <p className="text-lg font-medium">{contestant.name}</p>
+              <p className="text-gray-600 text-sm">{contestant.about}</p>
+            </div>
+            {/* contestant scores */}
+            <div>
+              <p className="text-lg font-semibold">{contestant.votes} vote{contestant.votes !== 1 && 's'}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+         </div>
+       </div>
+    ) : (
+          <div className="max-w-3xl mx-auto px-4 py-8">
       <div className="">
               <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
       <p className="mb-6 text-gray-700">{poll.about}</p>
@@ -95,6 +122,8 @@ const submitVote = async() =>{
       </div>
 
     </div>
+    )
+
   );
 }
 
