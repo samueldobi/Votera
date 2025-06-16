@@ -4,6 +4,7 @@ import Button from '../Components/Button'
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; // to get ID from the URL
+import Progressbar from '../Components/Progressbar';
 
 const Votepage = () => {
   // API URL FOR BACKEND REQUESTS
@@ -51,9 +52,11 @@ const submitVote = async() =>{
     }
 }
 
-  if (loading) return <p>Loading poll details...</p>;
+  if (loading) return
+  <div className='flex items-center'>
+    <Progressbar/>;
+  </div> 
   if (!poll) return <p>No poll found.</p>;
-    //  console.log(selectedContestantId)
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
