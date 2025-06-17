@@ -30,6 +30,10 @@ const CreateVote = () => {
     // States for Dates
     const [startDate, setStartDate] = React.useState(dayjs());
     const [endDate, setEndDate] = React.useState(dayjs());
+    // Check dates
+    const [checkDate, setCheckDate] = useState(false);
+    const [checkPastDate, setCheckPastDate] = useState(false);
+    const [checkFutureDate, setCheckFutureDate] = useState(false);
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -109,6 +113,27 @@ const CreateVote = () => {
     // Handle the submission of the final poll data 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        const now = dayjs();
+        // 1. Prevent start dates in the past
+            if (dayjs(startDate).isBefore(now)) {
+            // alert("Start date cannot be in the past.");
+            setCheckPastDate(true);
+            return;
+            }else{
+                setCheckPastDate(false);
+            }
+        // 2. Ensure end is at least 1 hour after start
+        if (!dayjs(endDate).isAfter(dayjs(startDate).add(1, "hour"))) {
+         setCheckDate(true)
+        return;
+        }else{
+            setCheckDate(false)
+        }
+        // 
+        if (dayjs(startDate).isAfter(endDate)) {
+            setCheckFutureDate(true)
+            return;
+        }else(setCheckFutureDate(false))
         const updatedPoll ={
             name:formDetails.name,
             about:formDetails.about,
@@ -121,6 +146,7 @@ const CreateVote = () => {
             endDate: endDate.toDate()
         }
         setPollData(updatedPoll)
+
         console.log(JSON.stringify(pollData))
         try{
             const response = await axios.post(`${apiUrl}/savepolldetails`, updatedPoll,{
@@ -138,10 +164,29 @@ const CreateVote = () => {
     <>
     <div className=" flex min-h-full flex-1 flex-col  px-6 py-12 lg:px-8">
                 <h2 className="text-2xl/7 m-3  font-semibold text-gray-900">Poll Details</h2>
+                
         <div className="border border-gray-300 rounded-md p-4">
         <form>
 
-                <div className="w-full mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="w-full mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            {/* AlertBox for checkdate */}
+              {checkPastDate && (
+                <div className="">
+                <AlertBox text= {'Your Startime is in the past'}/>
+            </div>
+            )}
+            {checkDate && (
+                <div className="">
+                <AlertBox text= {'Start Date and time must be at least one hour apart'}/>
+            </div>
+            )}
+            {checkFutureDate && (
+                <div className="">
+                <AlertBox text= {'Your Start date must be before your end date'}/>
+            </div>
+            )}
+
+        {/* AlertBox for checkdate */}
                     {/* First page of the poll details form */}
                     {step === 1 && (
                         <div className="sm:col-span-8">
@@ -317,6 +362,7 @@ const CreateVote = () => {
                                 selectedDate={startDate}
                                 onDateChange={setStartDate}
                                 pickerLabel="Start Date"
+                                maxDateTime={endDate ? dayjs(endDate).subtract(1, 'hour') : undefined}
                             />
                         </div>
                         <h2 className= "m-6 p-2">Pick End Date</h2>
@@ -325,6 +371,7 @@ const CreateVote = () => {
                                 selectedDate={endDate}
                                 onDateChange={setEndDate}
                                 pickerLabel="End Date"
+                                minDateTime={startDate ? dayjs(startDate).add(1, 'hour') : undefined}
                             />
                         </div>
                         <div className="mt-10 flex items-center justify-between gap-x-6">

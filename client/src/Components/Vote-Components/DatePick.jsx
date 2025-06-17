@@ -18,6 +18,7 @@ const DatePick = ({selectedDate, onDateChange, pickerLabel}) => {
         onChange={(newValue) => onDateChange(newValue)}
         slots={{ textField: TextField }}
         enableAccessibleFieldDOMStructure={false}
+        
       />
     </LocalizationProvider>
     </>
