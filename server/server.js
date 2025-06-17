@@ -56,6 +56,9 @@ app.use(pollRoutes);
 app.get('/', checkUser, (req, res) => {
   res.json(res.locals.user); // Send the user object as JSON
 });
+app.get('/checkuser', checkUser, (req, res) => {
+  res.status(200).json({success:'the user exists'}) // Send the user object as JSON
+});
 // To prevent non users from accessing certain pages
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
