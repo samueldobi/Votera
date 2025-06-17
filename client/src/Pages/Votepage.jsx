@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom'; // to get ID from the URL
 import Progressbar from '../Components/Progressbar';
 import Sharelink from '../Components/Vote-Components/Sharelink';
+import dayjs from 'dayjs';
 // import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
@@ -17,6 +18,8 @@ const Votepage = () => {
   const [selectedContestantId, setSelectedContestantId] = useState(null);
   const [hasVoted, setHasVoted] = useState(false)
   const [validUser, setValidUser] = useState(null);
+  const [remaining, setRemaining] = useState(0);  // milliseconds left
+  const [ended, setEnded] = useState(false);
 
   // Fetch the poll details
   useEffect(() => {
@@ -49,6 +52,8 @@ const submitVote = async() =>{
         pollId: id,
         contestantId: selectedContestantId,
       });
+      const updatedPoll = await axios.get(`${apiUrl}/getpolldetails/${id}`);
+      setPoll(updatedPoll.data)
         // if voting is succesfull
         localStorage.setItem(`hasVoted_${poll._id}`, 'true');
         setHasVoted(true);
@@ -65,6 +70,40 @@ useEffect(() => {
     setHasVoted(true);
   }
 }, [id]);
+// Display the remaining days
+useEffect(() => {
+  let interval;
+
+  async function setupTimer() {
+    const res = await axios.get(`${apiUrl}/getpolldetails/${id}`);
+    const end = dayjs(res.data.endDate);
+
+    const tick = () => {
+      const diff = end.diff(dayjs());
+      if (diff <= 0) {
+        setRemaining(0);
+        setEnded(true);
+        clearInterval(interval);
+      } else {
+        setRemaining(diff);
+      }
+    };
+
+    tick();  // initial setup
+    interval = setInterval(tick, 1000);
+  }
+
+  setupTimer();
+
+  return () => clearInterval(interval);
+}, [apiUrl, id]);
+
+  const totalSec = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSec / 86400);
+  const hrs = Math.floor((totalSec % 86400) / 3600);
+  const mins = Math.floor((totalSec % 3600) / 60);
+  const secs = totalSec % 60;
+
 
 // check if the user is admin so that he can have a link to share to others
 useEffect(() => {
@@ -83,7 +122,7 @@ useEffect(() => {
   }
   checkUser();
 }, []);
-
+// Display the countDown for Each vote
 
   if (loading) return
   <div className='flex items-center'>
@@ -97,6 +136,13 @@ useEffect(() => {
           {/* share the link  */}
           <Sharelink pollId={poll._id} />
           {/* share the link  */}
+          <div>
+          {ended ? (
+            <p>Poll ended</p>
+          ) : (
+            <p>Time left: {days}d {hrs}h {mins}m {secs}s</p>
+          )}
+          </div>
          <div className="max-w-3xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
                  <ul className="grid gap-4">
