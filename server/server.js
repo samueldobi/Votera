@@ -23,16 +23,31 @@ const requireAuth = require('./middleware/authMiddleware')
 const {requireAuth, checkUser} = require('./middleware/authMiddleware')
 >>>>>>> demo-branch
 
-
-// I configured  cors to allow  requests from both local development and production frontend
+//attempt to fix cors issue
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://votera.vercel.app'
+];
 const corsOptions = {
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:5173',
-      'https://votera.vercel.app'
-    ],
-    credentials: true
-  };     
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+// I configured  cors to allow  requests from both local development and production frontend
+// const corsOptions = {
+//     origin: [
+//       'http://localhost:3000',
+//       'http://localhost:5173',
+//       'https://votera.vercel.app'
+//     ],
+//     credentials: true
+//   };     
 // Middleware  
 app.use(cors(corsOptions));
 app.use(express.json()); 
