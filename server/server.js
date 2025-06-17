@@ -4,24 +4,20 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
 const authRoutes = require('./routes/authRoutes');
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 const pollRoutes = require('./routes/pollRoutes')
->>>>>>> demo-branch
+
 const cookieParser = require('cookie-parser');
 // .dotenv import
 
 // auth route for user authentication before login
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 const requireAuth = require('./middleware/authMiddleware')
->>>>>>> demo-branch
 
 
-=======
+
+
 const {requireAuth, checkUser} = require('./middleware/authMiddleware')
->>>>>>> demo-branch
 
 //attempt to fix cors issue
 const allowedOrigins = [
