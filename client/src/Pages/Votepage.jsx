@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; // to get ID from the URL
 import Progressbar from '../Components/Progressbar';
+// import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
   // API URL FOR BACKEND REQUESTS
@@ -14,6 +15,7 @@ const Votepage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedContestantId, setSelectedContestantId] = useState(null);
   const [hasVoted, setHasVoted] = useState(false)
+  const [validUser, setValidUser] = useState(null);
 
   // Fetch the poll details
   useEffect(() => {
@@ -63,6 +65,25 @@ useEffect(() => {
   }
 }, [id]);
 
+// check if the user is admin so that he can have a link to share to others
+useEffect(() => {
+  const checkUser = async ()=>{
+    try{
+      const response = await axios.get(`${apiUrl}/checkuser`,
+        {withCredentials:true}
+      )
+      if(response.status === 200){
+        console.log('it is working now ')
+        setValidUser(true);
+      }
+    }catch(err){
+      console.log(err)
+    }
+  }
+  checkUser();
+}, []);
+
+
   if (loading) return
   <div className='flex items-center'>
     <Progressbar/>;
@@ -72,6 +93,18 @@ useEffect(() => {
   return (
     hasVoted ?(
        <div>
+          {/* share the link  */}
+                <div>
+                {validUser &&(
+                  <div className="mt-4">
+                    <p className="font-semibold">Share this link with others:</p>
+                    <p className="text-[#e65c00] break-all">
+                      {`${window.location.origin}/vote/${poll._id}`}
+                    </p>
+                  </div>
+                )}
+              </div>
+                     {/* share the link  */}
          <div className="max-w-3xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
                  <ul className="grid gap-4">
@@ -97,6 +130,37 @@ useEffect(() => {
        </div>
     ) : (
           <div className="max-w-3xl mx-auto px-4 py-8">
+             {/* share the link  */}
+                <div>
+                {validUser &&(
+                  <div className="mt-4 flex flex-col items-center">
+                    <p className="font-semibold">Share this link with others:</p>
+                    {/* <p className="text-[#e65c00] break-all"> */}
+                    <div className="flex items-center space-x-2">
+                      <input 
+                       type='text'
+                       readOnly
+                       value ={`${window.location.origin}/vote/${poll._id}`}
+                        className="border px-2 py-1 flex-center w-64"
+                        onFocus={e => e.target.select()} // auto‑select when clicked
+                       />
+                         <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/vote/${poll._id}`);
+                        alert("Link copied to clipboard!");
+                      }}
+                      className="bg-[#e65c00] text-white px-4 py-1 rounded"
+                    >
+                      Copy
+                    </button>
+                      </div>
+                    
+                    
+                    {/* </p> */}
+                  </div>
+                )}
+              </div>
+                     {/* share the link  */}
       <div className="">
               <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
       <p className="mb-6 text-gray-700">{poll.about}</p>
@@ -132,6 +196,7 @@ useEffect(() => {
       </div>
 
     </div>
+
     )
 
   );

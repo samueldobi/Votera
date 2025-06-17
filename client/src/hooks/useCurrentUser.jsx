@@ -1,40 +1,34 @@
-import React from 'react'
+// src/hooks/useCurrentUser.jsx
 import { useState, useEffect } from 'react';
-import axios from "axios";
+import axios from 'axios';
 
-const useCurrentUser = () => {
-    // API URL FOR BACKEND CALLS
-    const apiUrl = import.meta.env.VITE_API_URL;
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+const apiUrl = import.meta.env.VITE_API_URL;
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/getuser`, {
-                    withCredentials: true
-                });
-                
-                if (response.data.success) {
-                    console.log(user)
-                    setUser(response.data.user);
-                } else {
-                    setUser(null);
-                }
-            } catch (error) {
-                console.error('Error fetching user:', error);
-                setUser(null);
-            } finally {
-                setLoading(false);
-            }
-        };
+export const useCurrentUser = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-        fetchUser();
-    }, []);
-    
-  return (
-   { user, loading }
-  )
-}
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/`, {
+          withCredentials: true,
+        });
+        if (res.data.success) {
+          setUser(res.data.user);
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error('Fetch user error:', err);
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-export default useCurrentUser
+    fetchUser();
+  }, []);
+
+  return { user, loading }; // ✅ This is key
+};
