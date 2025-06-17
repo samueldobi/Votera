@@ -5,6 +5,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; // to get ID from the URL
 import Progressbar from '../Components/Progressbar';
+import Sharelink from '../Components/Vote-Components/Sharelink';
 // import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
@@ -94,17 +95,8 @@ useEffect(() => {
     hasVoted ?(
        <div>
           {/* share the link  */}
-                <div>
-                {validUser &&(
-                  <div className="mt-4">
-                    <p className="font-semibold">Share this link with others:</p>
-                    <p className="text-[#e65c00] break-all">
-                      {`${window.location.origin}/vote/${poll._id}`}
-                    </p>
-                  </div>
-                )}
-              </div>
-                     {/* share the link  */}
+          <Sharelink pollId={poll._id} />
+          {/* share the link  */}
          <div className="max-w-3xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
                  <ul className="grid gap-4">
@@ -133,31 +125,7 @@ useEffect(() => {
              {/* share the link  */}
                 <div>
                 {validUser &&(
-                  <div className="mt-4 flex flex-col items-center">
-                    <p className="font-semibold">Share this link with others:</p>
-                    {/* <p className="text-[#e65c00] break-all"> */}
-                    <div className="flex items-center space-x-2">
-                      <input 
-                       type='text'
-                       readOnly
-                       value ={`${window.location.origin}/vote/${poll._id}`}
-                        className="border px-2 py-1 flex-center w-64"
-                        onFocus={e => e.target.select()} // auto‑select when clicked
-                       />
-                         <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/vote/${poll._id}`);
-                        alert("Link copied to clipboard!");
-                      }}
-                      className="bg-[#e65c00] text-white px-4 py-1 rounded"
-                    >
-                      Copy
-                    </button>
-                      </div>
-                    
-                    
-                    {/* </p> */}
-                  </div>
+                  <Sharelink pollId={poll._id} /> 
                 )}
               </div>
                      {/* share the link  */}
