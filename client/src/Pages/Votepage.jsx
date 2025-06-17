@@ -5,6 +5,9 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom'; // to get ID from the URL
 import Progressbar from '../Components/Progressbar';
+import Sharelink from '../Components/Vote-Components/Sharelink';
+import dayjs from 'dayjs';
+import CountDown from '../Components/Vote-Components/CountDown';
 // import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
@@ -15,7 +18,8 @@ const Votepage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedContestantId, setSelectedContestantId] = useState(null);
   const [hasVoted, setHasVoted] = useState(false)
-  const [validUser, setValidUser] = useState(null);
+  // const [validUser, setValidUser] = useState(null);
+
 
   // Fetch the poll details
   useEffect(() => {
@@ -23,7 +27,7 @@ const Votepage = () => {
       try {
         const response = await axios.get(`${apiUrl}/getpolldetails/${id}`);
         setPoll(response.data);
-        console.log(response.data)
+        // console.log(response.data)
       } catch (err) {
         console.error("Error fetching poll:", err);
       } finally {
@@ -48,10 +52,12 @@ const submitVote = async() =>{
         pollId: id,
         contestantId: selectedContestantId,
       });
+      const updatedPoll = await axios.get(`${apiUrl}/getpolldetails/${id}`);
+      setPoll(updatedPoll.data)
         // if voting is succesfull
         localStorage.setItem(`hasVoted_${poll._id}`, 'true');
         setHasVoted(true);
-      console.log("Vote successful:", response.data);
+      // console.log("Vote successful:", response.data);
     }catch(err){
       console.log(err);
     }
@@ -64,25 +70,24 @@ useEffect(() => {
     setHasVoted(true);
   }
 }, [id]);
-
 // check if the user is admin so that he can have a link to share to others
-useEffect(() => {
-  const checkUser = async ()=>{
-    try{
-      const response = await axios.get(`${apiUrl}/checkuser`,
-        {withCredentials:true}
-      )
-      if(response.status === 200){
-        console.log('it is working now ')
-        setValidUser(true);
-      }
-    }catch(err){
-      console.log(err)
-    }
-  }
-  checkUser();
-}, []);
-
+// useEffect(() => {
+//   const checkUser = async ()=>{
+//     try{
+//       const response = await axios.get(`${apiUrl}/checkuser`,
+//         {withCredentials:true}
+//       )
+//       if(response.status === 200){
+//         console.log('it is working now ')
+//         setValidUser(true);
+//       }
+//     }catch(err){
+//       console.log(err)
+//     }
+//   }
+//   checkUser();
+// }, []);
+// Display the countDown for Each vote
 
   if (loading) return
   <div className='flex items-center'>
@@ -93,18 +98,16 @@ useEffect(() => {
   return (
     hasVoted ?(
        <div>
+         <div>
+            {/* share the link  */}
+            <Sharelink pollId={poll._id} />
           {/* share the link  */}
-                <div>
-                {validUser &&(
-                  <div className="mt-4">
-                    <p className="font-semibold">Share this link with others:</p>
-                    <p className="text-[#e65c00] break-all">
-                      {`${window.location.origin}/vote/${poll._id}`}
-                    </p>
-                  </div>
-                )}
-              </div>
-                     {/* share the link  */}
+         </div>
+          <div>
+            {/* Countdown component */}
+            <CountDown id={id}/>
+            {/* Countdown component */}
+          </div>
          <div className="max-w-3xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
                  <ul className="grid gap-4">
@@ -131,35 +134,16 @@ useEffect(() => {
     ) : (
           <div className="max-w-3xl mx-auto px-4 py-8">
              {/* share the link  */}
-                <div>
-                {validUser &&(
-                  <div className="mt-4 flex flex-col items-center">
-                    <p className="font-semibold">Share this link with others:</p>
-                    {/* <p className="text-[#e65c00] break-all"> */}
-                    <div className="flex items-center space-x-2">
-                      <input 
-                       type='text'
-                       readOnly
-                       value ={`${window.location.origin}/vote/${poll._id}`}
-                        className="border px-2 py-1 flex-center w-64"
-                        onFocus={e => e.target.select()} // auto‑select when clicked
-                       />
-                         <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/vote/${poll._id}`);
-                        alert("Link copied to clipboard!");
-                      }}
-                      className="bg-[#e65c00] text-white px-4 py-1 rounded"
-                    >
-                      Copy
-                    </button>
-                      </div>
-                    
-                    
-                    {/* </p> */}
-                  </div>
-                )}
-              </div>
+                 <div>
+            {/* share the link  */}
+            <Sharelink pollId={poll._id} />
+          {/* share the link  */}
+         </div>
+          <div>
+            {/* Countdown component */}
+            <CountDown id={id}/>
+            {/* Countdown component */}
+          </div>
                      {/* share the link  */}
       <div className="">
               <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
@@ -182,7 +166,7 @@ useEffect(() => {
               <Checkbox
                 checked={selectedContestantId === contestant._id || false}
                 onChange={() =>{
-                  console.log("Selected contestant ID:", contestant._id);
+                  // console.log("Selected contestant ID:", contestant._id);
                   setSelectedContestantId(contestant._id)}
                 } 
               />
