@@ -11,12 +11,6 @@ const cookieParser = require('cookie-parser');
 // .dotenv import
 
 // auth route for user authentication before login
-
-const requireAuth = require('./middleware/authMiddleware')
-
-
-
-
 const {requireAuth, checkUser} = require('./middleware/authMiddleware')
 
 //attempt to fix cors issue
