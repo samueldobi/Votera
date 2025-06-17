@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'; // to get ID from the URL
 import Progressbar from '../Components/Progressbar';
 import Sharelink from '../Components/Vote-Components/Sharelink';
 import dayjs from 'dayjs';
+import CountDown from '../Components/Vote-Components/CountDown';
 // import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
@@ -17,9 +18,8 @@ const Votepage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedContestantId, setSelectedContestantId] = useState(null);
   const [hasVoted, setHasVoted] = useState(false)
-  const [validUser, setValidUser] = useState(null);
-  const [remaining, setRemaining] = useState(0);  // milliseconds left
-  const [ended, setEnded] = useState(false);
+  // const [validUser, setValidUser] = useState(null);
+
 
   // Fetch the poll details
   useEffect(() => {
@@ -27,7 +27,7 @@ const Votepage = () => {
       try {
         const response = await axios.get(`${apiUrl}/getpolldetails/${id}`);
         setPoll(response.data);
-        console.log(response.data)
+        // console.log(response.data)
       } catch (err) {
         console.error("Error fetching poll:", err);
       } finally {
@@ -57,7 +57,7 @@ const submitVote = async() =>{
         // if voting is succesfull
         localStorage.setItem(`hasVoted_${poll._id}`, 'true');
         setHasVoted(true);
-      console.log("Vote successful:", response.data);
+      // console.log("Vote successful:", response.data);
     }catch(err){
       console.log(err);
     }
@@ -70,58 +70,23 @@ useEffect(() => {
     setHasVoted(true);
   }
 }, [id]);
-// Display the remaining days
-useEffect(() => {
-  let interval;
-
-  async function setupTimer() {
-    const res = await axios.get(`${apiUrl}/getpolldetails/${id}`);
-    const end = dayjs(res.data.endDate);
-
-    const tick = () => {
-      const diff = end.diff(dayjs());
-      if (diff <= 0) {
-        setRemaining(0);
-        setEnded(true);
-        clearInterval(interval);
-      } else {
-        setRemaining(diff);
-      }
-    };
-
-    tick();  // initial setup
-    interval = setInterval(tick, 1000);
-  }
-
-  setupTimer();
-
-  return () => clearInterval(interval);
-}, [apiUrl, id]);
-
-  const totalSec = Math.floor(remaining / 1000);
-  const days = Math.floor(totalSec / 86400);
-  const hrs = Math.floor((totalSec % 86400) / 3600);
-  const mins = Math.floor((totalSec % 3600) / 60);
-  const secs = totalSec % 60;
-
-
 // check if the user is admin so that he can have a link to share to others
-useEffect(() => {
-  const checkUser = async ()=>{
-    try{
-      const response = await axios.get(`${apiUrl}/checkuser`,
-        {withCredentials:true}
-      )
-      if(response.status === 200){
-        console.log('it is working now ')
-        setValidUser(true);
-      }
-    }catch(err){
-      console.log(err)
-    }
-  }
-  checkUser();
-}, []);
+// useEffect(() => {
+//   const checkUser = async ()=>{
+//     try{
+//       const response = await axios.get(`${apiUrl}/checkuser`,
+//         {withCredentials:true}
+//       )
+//       if(response.status === 200){
+//         console.log('it is working now ')
+//         setValidUser(true);
+//       }
+//     }catch(err){
+//       console.log(err)
+//     }
+//   }
+//   checkUser();
+// }, []);
 // Display the countDown for Each vote
 
   if (loading) return
@@ -133,15 +98,15 @@ useEffect(() => {
   return (
     hasVoted ?(
        <div>
+         <div>
+            {/* share the link  */}
+            <Sharelink pollId={poll._id} />
           {/* share the link  */}
-          <Sharelink pollId={poll._id} />
-          {/* share the link  */}
+         </div>
           <div>
-          {ended ? (
-            <p>Poll ended</p>
-          ) : (
-            <p>Time left: {days}d {hrs}h {mins}m {secs}s</p>
-          )}
+            {/* Countdown component */}
+            <CountDown id={id}/>
+            {/* Countdown component */}
           </div>
          <div className="max-w-3xl mx-auto px-4 py-8">
           <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
@@ -169,11 +134,16 @@ useEffect(() => {
     ) : (
           <div className="max-w-3xl mx-auto px-4 py-8">
              {/* share the link  */}
-                <div>
-                {validUser &&(
-                  <Sharelink pollId={poll._id} /> 
-                )}
-              </div>
+                 <div>
+            {/* share the link  */}
+            <Sharelink pollId={poll._id} />
+          {/* share the link  */}
+         </div>
+          <div>
+            {/* Countdown component */}
+            <CountDown id={id}/>
+            {/* Countdown component */}
+          </div>
                      {/* share the link  */}
       <div className="">
               <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
@@ -196,7 +166,7 @@ useEffect(() => {
               <Checkbox
                 checked={selectedContestantId === contestant._id || false}
                 onChange={() =>{
-                  console.log("Selected contestant ID:", contestant._id);
+                  // console.log("Selected contestant ID:", contestant._id);
                   setSelectedContestantId(contestant._id)}
                 } 
               />
