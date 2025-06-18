@@ -55,8 +55,8 @@ module.exports.signup_post = async (req, res)=>{
         res.cookie('jwt',token, {
             httpOnly: true, 
             maxAge: maxAge * 1000,
-            // secure: true,           // Only send over HTTPS
-            // sameSite: 'Strict'   // Helps prevent CSRF 
+            secure: true,     // Only send over HTTPS
+            sameSite: 'None'   
         } )
         res.status(201).json({user: newUser._id});
     }catch(err){
