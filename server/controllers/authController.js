@@ -67,7 +67,6 @@ module.exports.signup_post = async (req, res)=>{
 }  
 module.exports.login_get = async (req, res)=>{
     const {email, password} = req.body;
-    // console.log(email, password) 
     try{
         const validUser = await User.findOne({email:email})
         if(!validUser){
@@ -95,8 +94,8 @@ module.exports.login_get = async (req, res)=>{
 module.exports.logout_post = (req, res)=>{
     res.cookie('jwt', '', {
         httpOnly: true, 
-        // secure: true,
-        // sameSite: 'None',
+        secure: true,
+        sameSite: 'None',
         maxAge: 1,
     })
     res.status(200).json({success:'User logged out succesfully'})
@@ -117,7 +116,6 @@ module.exports.get_current_user = (req, res)=>{
 }
 // Poll details routes
 module.exports.save_poll_details = async ( req, res)=>{
-    // console.log(req.body);
     try{
         const pollData = req.body
         const newPollData = new Poll(pollData);

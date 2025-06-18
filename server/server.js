@@ -27,7 +27,9 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 // I configured  cors to allow  requests from both local development and production frontend
 // const corsOptions = {
@@ -67,10 +69,6 @@ app.use(pollRoutes);
 // To check if the user is logged in and verified
 app.get('/', checkUser, (req, res) => {
   res.json(res.locals.user); // Send the user object as JSON
-});
-// hdiaogvldkbn
-app.get('/', (req, res) => {
-  res.send('Server is running');
 });
 app.get('/checkuser', checkUser, (req, res) => {
   res.status(200).json({success:'the user exists'}) // Send the user object as JSON
