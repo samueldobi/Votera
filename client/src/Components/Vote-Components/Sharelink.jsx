@@ -9,7 +9,7 @@ const Sharelink = ({pollId}) => {
                       <input 
                        type='text'
                        readOnly
-                       value ={`${window.location.origin}/vote/${pollId}`}
+                       value ={`${window.location.origin}/votepage/${pollId}`}
                         className="border px-2 py-1 flex-center w-64"
                         onFocus={e => e.target.select()} // auto‑select when clicked
                        />
