@@ -77,3 +77,10 @@ app.get('/checkuser', checkUser, (req, res) => {
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 }); 
+app.get('/api/test-auth', requireAuth, (req, res) => {
+    res.json({ 
+        message: 'Auth working!', 
+        user: req.user,
+        timestamp: new Date().toISOString()
+    });
+});

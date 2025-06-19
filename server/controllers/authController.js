@@ -67,6 +67,9 @@ module.exports.signup_post = async (req, res)=>{
 }  
 module.exports.login_get = async (req, res)=>{
     const {email, password} = req.body;
+    console.log('=== LOGIN ATTEMPT ===');
+    console.log('Request from:', req.headers['user-agent']);
+    console.log('Request body received:', req.body);
     try{
         const validUser = await User.findOne({email:email})
         if(!validUser){
