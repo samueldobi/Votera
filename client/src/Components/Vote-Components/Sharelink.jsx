@@ -15,7 +15,7 @@ const Sharelink = ({pollId}) => {
                        />
                          <button
                       onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/vote/${pollId}`);
+                        navigator.clipboard.writeText(`${window.location.origin}/votepage/${pollId}`);
                         alert("Link copied to clipboard!");
                       }}
                       className="bg-[#e65c00] text-white px-4 py-1 rounded"
