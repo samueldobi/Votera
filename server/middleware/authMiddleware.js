@@ -4,12 +4,18 @@ const User = require('../models/users');
 
 const secretString = process.env.JWT_SECRET
 const requireAuth = (req, res, next)=>{
-    const token = req.cookies.jwt
-    // to check if token exists and is verified\
+    let token = req.cookies.jwt
+    if(!token && req.headers.authorization){
+        const authHeader = req.headers.authorization
+        // check if it starts with bearer
+        if(authHeader.startsWith('Bearer')){
+            token = authHeader.split('')[1];
+        }
+    }
+    // to check if token exists and is verified
     if(token){
         jwt.verify(token, secretString, (err, decodedToken)=>{
             if(err){
-                // console.log(err.message)
                  return res.status(401).json({ message: 'Unauthorized: Invalid token' });
             }else{
                 req.user = decodedToken;

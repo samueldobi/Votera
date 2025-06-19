@@ -4,6 +4,7 @@ import axios from "axios"
 import AlertBox from '../Components/Vote-Components/AlertBox';
 // import { useNavigate, useLocation } from 'react-router-dom';
 import { useRedirectAfterAuth } from '../hooks/useRedirectAfterAuth';
+import apiClient from '../utils/api';
 
 // Login Component
 const Login = () => {
@@ -25,10 +26,18 @@ const Login = () => {
   const handleLogin = async (e)=>{
     e.preventDefault();
     try{
-      const response = await axios.post(`${apiUrl}/login`, loginForm,{
-         withCredentials: true
+      const response = await apiClient.post(`${apiUrl}/login`, loginForm,{
+         withCredentials: true, // Still send cookies
+            headers: {
+                'Content-Type': 'application/json'
+            }
       });
       console.log("Success:", response.data);
+      // Store token in local storage for moble fallback
+      if(response.data.token){
+        localStorage.setItem('userToken', response.data.token)
+      }
+      // Hook to redirect user after succesfull authentication
       redirectAfterAuth();
     }catch(error){
       const showError = error.response.data 
