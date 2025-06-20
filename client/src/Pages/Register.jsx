@@ -32,7 +32,10 @@ const handleSubmit = async(e) =>{
     try {
       const response = await axios.post(`${apiUrl}/signup`, registerForm,
         {
-         withCredentials: true
+         withCredentials: true,
+          headers: {
+          'Content-Type': 'application/json'
+    }
       }
       );
       console.log("Response:", response.data);

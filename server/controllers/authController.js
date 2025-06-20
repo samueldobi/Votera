@@ -84,10 +84,10 @@ module.exports.login_get = async (req, res)=>{
         res.cookie('jwt',userToken, {
             httpOnly: true, 
             maxAge: maxAge * 1000,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
-            // secure: true,           // Only send over HTTPS
-            // sameSite: 'None'   // Helps prevent CSRF 
+            // secure: process.env.NODE_ENV === 'production',
+            // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+            secure: true,           // Only send over HTTPS
+            sameSite: 'None'   // Helps prevent CSRF 
         })
     res.status(200).json({ 
         message: "Login successful", 
