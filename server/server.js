@@ -84,3 +84,7 @@ app.get('/api/test-auth', requireAuth, (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
+app.get('/check-cookies', (req, res) => {
+  console.log("Cookies received:", req.cookies);
+  res.json({ cookies: req.cookies });
+});

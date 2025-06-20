@@ -1,9 +1,20 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { Field, Label, Switch } from '@headlessui/react'
+import axios from "axios";
 
 const Contact = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+  useEffect(() => {
+  axios.get(`${apiUrl}/check-cookies`, { withCredentials: true })
+    .then(res => {
+      alert("Cookies received: " + JSON.stringify(res.data.cookies));
+    })
+    .catch(err => {
+      alert("Cookie check failed: " + err.message);
+    });
+}, [apiUrl]);
     const [agreed, setAgreed] = useState(false)
   return (
     <>
