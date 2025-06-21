@@ -11,7 +11,7 @@ const requireAuth = (req, res, next)=>{
     let token = req.cookies.jwt
      const authHeader = req.headers.authorization
     if(!token && authHeader &&  authHeader.startsWith('Bearer')){
-            token = authHeader.split('')[1];
+            token = authHeader.split(' ')[1];
     }
         console.log('Final token found:', token ? 'YES' : 'NO');
 

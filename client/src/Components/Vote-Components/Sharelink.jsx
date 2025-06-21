@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Sharelink = ({pollId}) => {
+
   return (
     <div className="mt-4 flex flex-col items-center">
                     <p className="font-semibold">Share this link with others:</p>
