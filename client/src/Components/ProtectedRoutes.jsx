@@ -10,8 +10,13 @@ const ProtectedRoutes = () => {
     const location = useLocation();
     useEffect(()=>{
         const checkAuth = async() =>{
+            const token = localStorage.getItem('userToken')
             try{
-            const response = await  axios.get(`${apiUrl}/protectedRoutes`,{ withCredentials: true })
+            const response = await  axios.get(`${apiUrl}/protectedRoutes`,{ 
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+             })
             if(response.status === 200 && response.data.message ===  'Success, User Verified'){
                 setAuth(true)
                 console.log('the user has been verified')

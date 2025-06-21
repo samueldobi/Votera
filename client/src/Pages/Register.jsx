@@ -35,9 +35,12 @@ const handleSubmit = async(e) =>{
          withCredentials: true,
           headers: {
           'Content-Type': 'application/json'
-    }
+        }
+      });
+      if(response.data.token){
+        localStorage.setItem('userToken', response.data.token)
       }
-      );
+     
       console.log("Response:", response.data);
       setNewUsername(registerForm.username)
       setRegisterForm({email:'',username:'',password:''})

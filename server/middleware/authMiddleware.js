@@ -9,18 +9,12 @@ const requireAuth = (req, res, next)=>{
     console.log('Authorization header:', req.headers.authorization);
     console.log('User-Agent:', req.headers['user-agent']);
     let token = req.cookies.jwt
-    if(!token && req.headers.authorization){
-        const authHeader = req.headers.authorization
-        // check if it starts with bearer
-        if(authHeader.startsWith('Bearer')){
+     const authHeader = req.headers.authorization
+    if(!token && authHeader &&  authHeader.startsWith('Bearer')){
             token = authHeader.split('')[1];
-        }else if (token) {
-        console.log('Using token from cookie');
     }
-    
-    console.log('Final token found:', token ? 'YES' : 'NO');
+        console.log('Final token found:', token ? 'YES' : 'NO');
 
-    }
     // to check if token exists and is verified
     if(token){
         jwt.verify(token, secretString, (err, decodedToken)=>{

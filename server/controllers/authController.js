@@ -58,7 +58,11 @@ module.exports.signup_post = async (req, res)=>{
             secure: true,     // Only send over HTTPS
             sameSite: 'None'   
         } )
-        res.status(201).json({user: newUser._id});
+        res.status(201).json({
+            message: "signup succesful",
+            token,
+            user: newUser._id
+        });
     }catch(err){
         const errors = handleErrors(err)
         res.status(400).json({errors}); 
