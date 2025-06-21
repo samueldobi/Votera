@@ -48,11 +48,12 @@ export default function Navbar() {
   
   const handleLogout = async()=>{
     try{
-      const response = await axios.post(`${apiUrl}/logout`,null, {withCredentials:true,})
-      if(response.status === 200){
-        navigate('/');
-      }
-      console.log(response)
+      // const response = await axios.post(`${apiUrl}/logout`,null, {withCredentials:true,})
+      // if(response.status === 200){
+      // }
+      localStorage.removeItem('userToken')
+      navigate('/');
+      // console.log(response)
     }catch(err){
       console.log(err)
     }
