@@ -1,34 +1,39 @@
-// src/hooks/useCurrentUser.jsx
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 
-export const useCurrentUser = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+ const useCurrentUser = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+  // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${apiUrl}/`, {
-          withCredentials: true,
+        // console.log("About to fetch /getuser");
+        const token = localStorage.getItem('userToken');
+        const res = await axios.get(`${apiUrl}/getuser`, {
+          headers: { 
+            Authorization: `Bearer ${token}`
+          },
+           withCredentials: true
         });
         if (res.data.success) {
-          setUser(res.data.user);
+          setCurrentUser(res.data.user.username);
+          console.log('it worked')
         } else {
-          setUser(null);
+          setCurrentUser(null);
         }
       } catch (err) {
         console.error('Fetch user error:', err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
+        setCurrentUser(null);
+      } 
     };
 
     fetchUser();
   }, []);
 
-  return { user, loading }; // ✅ This is key
+  return currentUser; // Very Important 
 };
+export default useCurrentUser

@@ -72,8 +72,7 @@ module.exports.signup_post = async (req, res)=>{
 module.exports.login_get = async (req, res)=>{
     const {email, password} = req.body;
     console.log('=== LOGIN ATTEMPT ===');
-    console.log('Request from:', req.headers['user-agent']);
-    console.log('Request body received:', req.body);
+console.log('Request body received:', req.body);
     try{
         const validUser = await User.findOne({email:email})
         if(!validUser){
@@ -88,8 +87,6 @@ module.exports.login_get = async (req, res)=>{
         res.cookie('jwt',userToken, {
             httpOnly: true, 
             maxAge: maxAge * 1000,
-            // secure: process.env.NODE_ENV === 'production',
-            // sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
             secure: true,           // Only send over HTTPS
             sameSite: 'None'   // Helps prevent CSRF 
         })
@@ -100,7 +97,7 @@ module.exports.login_get = async (req, res)=>{
  
     }catch(error){
         console.log(error)
-        return res.status(500).json({error:'Something went wrong, Please try again'})
+        return res.status(500).json({error:'Something went wrong, check well Please try again'})
     }
 }
 module.exports.logout_post = (req, res)=>{
@@ -112,19 +109,28 @@ module.exports.logout_post = (req, res)=>{
     })
     res.status(200).json({success:'User logged out succesfully'})
 }
-module.exports.get_current_user = (req, res)=>{
-        if (res.locals.user) {
-        res.json({ 
-            success: true, 
-            user: {
-                id: res.locals.user._id,
-                username: res.locals.user.username,
-                email: res.locals.user.email
+module.exports.get_current_user =  async (req, res)=>{
+    const user = res.locals.user
+    console.log(user)
+    if(user){
+        res.json({
+            success:true,
+            username: user.username,
+            user:{
+                id: user._id,
+                username: user.username,
+                email: user.email
             }
         });
-    } else {
-        res.json({ success: false, user: null });
+
+    }else{
+        res.json({
+            success:false,
+            message:'not working',
+            user:null
+        });
     }
+    console.log(user)
 }
 // Poll details routes
 module.exports.save_poll_details = async ( req, res)=>{

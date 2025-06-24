@@ -1,21 +1,45 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { Field, Label, Switch } from '@headlessui/react'
-import axios from "axios";
+import axios from 'axios'
+// import  useCurrentUser  from '../hooks/useCurrentUser'
+
 
 const Contact = () => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-  useEffect(() => {
-  axios.get(`${apiUrl}/check-cookies`, { withCredentials: true })
-    .then(res => {
-      alert("Cookies received: " + JSON.stringify(res.data.cookies));
-    })
-    .catch(err => {
-      alert("Cookie check failed: " + err.message);
-    });
-}, [apiUrl]);
     const [agreed, setAgreed] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
+      // const currentUser = useCurrentUser();
+      const apiUrl = import.meta.env.VITE_API_URL;
+ 
+   useEffect(() => {
+     const fetchUser = async () => {
+       try {
+         console.log("About to fetch /getuser");
+         const token = localStorage.getItem('userToken');
+        //  console.log(token)
+         const res = await axios.get(`${apiUrl}/getuser`, {
+           headers: { 
+             Authorization: `Bearer ${token}`
+           },
+            withCredentials: true
+         });
+         console.log('this is the response:', res)
+         if (res.data.success) {
+           setCurrentUser(res.data.user.username);
+           console.log('it worked')
+         } else {
+           setCurrentUser(null);
+           console.log('the data is set as null')
+         }
+       } catch (err) {
+         console.error('Fetch user error:', err);
+         setCurrentUser(null);
+       } 
+     };
+ 
+     fetchUser();
+   }, []);
   return (
     <>
     <div className="isolate  px-6 py-24 sm:py-32 lg:px-8">
@@ -149,6 +173,9 @@ const Contact = () => {
           </button>
         </div>
       </form>
+    </div>
+    <div className="">
+      <h2>Welcome{currentUser ? currentUser.username : 'Guest'}!</h2>
     </div>
 
     </>

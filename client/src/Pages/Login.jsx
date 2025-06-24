@@ -32,10 +32,10 @@ const Login = () => {
                 'Content-Type': 'application/json'
             }
       });
-      console.log("Success:", response.data);
-      // Store token in local storage for moble fallback
+      // Store token in local storage for mobile fallback
       if(response.data.token){
         localStorage.setItem('userToken', response.data.token)
+        // console.log(response.data)
       }
       // Hook to redirect user after succesfull authentication
       redirectAfterAuth();

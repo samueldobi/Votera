@@ -31,16 +31,7 @@ const corsOptions = {
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
-// I configured  cors to allow  requests from both local development and production frontend
-// const corsOptions = {
-//     origin: [
-//       'http://localhost:3000',
-//       'http://localhost:5173',
-//       'https://votera.vercel.app'
-//     ],
-//     credentials: true
-//   };     
-// Middleware  
+// 
 app.use(cors(corsOptions));
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
@@ -50,12 +41,11 @@ app.use(cookieParser());
 
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;
-mongoose.connect(dbURI)
+mongoose.connect(dbURI, {
+    serverSelectionTimeoutMS: 10000
+})
   .then(() => app.listen(5000, ()=>{console.log("mongodb connected succesfully")}))
   .catch((err) => console.error("MongoDB connection error:", err));
-  
-
-
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
@@ -66,12 +56,11 @@ app.listen(PORT, () => {
 app.use(authRoutes);
 // Routes for poll functions
 app.use(pollRoutes);
-// To check if the user is logged in and verified
-app.get('/', checkUser, (req, res) => {
-  res.json(res.locals.user); // Send the user object as JSON
-});
-app.get('/checkuser', checkUser, (req, res) => {
-  res.status(200).json({success:'the user exists'}) // Send the user object as JSON
+// checkUser
+// app.use('*', checkUser)
+app.get(/.*/, (req, res, next) => {
+  // console.log('Matched all GET routes');
+  next();
 });
 // To prevent non users from accessing certain pages
 app.get('/protectedRoutes', requireAuth, (req,res)=>{

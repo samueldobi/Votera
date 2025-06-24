@@ -4,12 +4,8 @@ const User = require('../models/users');
 
 const secretString = process.env.JWT_SECRET
 const requireAuth = (req, res, next)=>{
-    console.log('=== AUTH CHECK ===');
-    console.log('Cookies received:', req.cookies);
-    console.log('Authorization header:', req.headers.authorization);
-    console.log('User-Agent:', req.headers['user-agent']);
     let token = req.cookies.jwt
-     const authHeader = req.headers.authorization
+    const authHeader = req.headers.authorization
     if(!token && authHeader &&  authHeader.startsWith('Bearer')){
             token = authHeader.split(' ')[1];
     }
@@ -31,23 +27,35 @@ const requireAuth = (req, res, next)=>{
 }
 
 // Check current user
-const checkUser =  (req, res, next) =>{
-    const token = req.cookies.jwt
+const checkUser = async  (req, res, next) =>{
+    let cookieToken = req.cookies.jwt
+    const authHeader = req.headers.authorization
+    const token = (authHeader?.startsWith('Bearer ') && authHeader.split(' ')[1]) || cookieToken;
     if(token){
         jwt.verify(token, secretString, async (err, decodedToken)=>{
             if(err){
-                res.locals.user = null;
-                next();
+                console.log(err.message)
+                res.locals.user = null
+                return next();
             }else{
-                // req.user = decodedToken;
-                // console.log(decodedToken)
-                let user = await User.findById(decodedToken.id)
-                // console.log(user)
-                res.locals.user = user;
-                next();
+                 try {
+                    console.log('Decoded token:', decodedToken);
+                    const userId = decodedToken.id; 
+                    console.log('User ID:', userId);
+                    
+                    let user = await User.findById(userId);
+                    console.log('Found user:', user ? user.username : 'No user found');
+                    
+                    res.locals.user = user;
+                    next();
+                } catch (dbError) {
+                    console.error('Database error:', dbError);
+                    res.locals.user = null;
+                    next();
+                }
             }
         })
-    }else{  
+    }else{
         res.locals.user = null;
         next();
     }

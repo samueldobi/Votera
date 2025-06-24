@@ -3,13 +3,8 @@ import { useState, useEffect } from 'react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Navigate, useNavigate } from 'react-router-dom'
 import axios from "axios"
+// import { useCurrentUser } from '../hooks/useCurrentUser'
 
-// const user = {
-//   name: 'Tom Cook',
-//   email: 'tom@example.com',
-//   imageUrl:
-//     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-// }
 const navigation = [
   { name: 'Home', href: '/', current: true },
   { name: 'Vote', href: '/vote', current: false },
@@ -32,28 +27,30 @@ const apiUrl = import.meta.env.VITE_API_URL;
 export default function Navbar() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null)
-  useEffect(()=>{
-    const showUser = async() =>{
-    try{
-      const response = await axios.get (`${apiUrl}/`,{withCredentials:true,})
-        // console.log(response.data)
-        const userDetails = response.data
-        setUser(userDetails)
-    }catch(err){
-      console.log(err)
-    }
-  }
-  showUser();
-  }, [])
+  // const {username, loading} = useCurrentUser();
+  // Retrieve username and email 
+  // useEffect(()=>{
+  //   const showUser = async() =>{
+  //   try{
+  //     const response = await axios.get (`${apiUrl}/getuser`,{withCredentials:true,})
+  //       console.log(response.data)
+  //       const userDetails = response.data
+  //       console.log(userDetails)
+  //       setUser(userDetails)
+  //   }catch(err){
+  //     console.log(err)
+  //   }
+  // }
+  // showUser();
+  // }, [])
+
   
   const handleLogout = async()=>{
     try{
-      // const response = await axios.post(`${apiUrl}/logout`,null, {withCredentials:true,})
-      // if(response.status === 200){
-      // }
+      const response = await axios.post(`${apiUrl}/logout`,null, {withCredentials:true,})
       localStorage.removeItem('userToken')
       navigate('/');
-      // console.log(response)
+      console.log(response)
     }catch(err){
       console.log(err)
     }
