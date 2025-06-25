@@ -72,7 +72,12 @@ module.exports.signup_post = async (req, res)=>{
     // Send email fron nodemailer
     try{
         await sendEmail(email, 'Welcome to Votera!',`
-            <h1>Welcome ${username}!</h1>`
+            <h1>Welcome ${username}!</h1>
+            <p>Thanks for signing up to Votera!</p></br>
+            <p>You're now part of a community where your vote counts.
+            Start exploring polls, cast your vote, or create your own. </p>
+             <p>Start a poll  <a href = "https://votera.vercel.app/login">Now</a></p>
+            `
         )  
     }catch(err){
         console.log(err)
