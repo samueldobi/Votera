@@ -149,10 +149,21 @@ module.exports.get_current_user =  async (req, res)=>{
 }
 // Poll details routes
 module.exports.save_poll_details = async ( req, res)=>{
+    const {email,username } = req.body;
+    //  const sendPollCreatorEmail=  await User.findOne({email:email})
     try{
         const pollData = req.body
         const newPollData = new Poll(pollData);
+        const userEmail = newPollData.email;
+        const userName = newPollData.username;
         const updatedPoll = await newPollData.save();
+
+        // Send vote creation email
+        await sendEmail(userEmail, `Congrats,${userName} You have successfully created A New Poll !`,`
+            <h1>The poll will last for ....</h1>
+                <p>Share this link to people you want to vote <a href = "https://votera.vercel.app/login">Now</a></p>
+            `
+        )   
         res.status(201).json(updatedPoll)
     }catch(err){
         console.error('Error saving poll:', err);

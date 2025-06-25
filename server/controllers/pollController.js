@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const Poll = require('../models/polldetails')
 
 module.exports.save_poll_details = async ( req, res)=>{
-    // console.log(req.body);
     try{
         const pollData = req.body
         const newPollData = new Poll(pollData);

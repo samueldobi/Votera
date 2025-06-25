@@ -44,8 +44,7 @@ const checkUser = async  (req, res, next) =>{
 
                     
                     let user = await User.findById(userId);
-                    // console.log('Found user:', user ? user.username : 'No user found');
-                    
+ 
                     res.locals.user = user;
                     next();
                 } catch (dbError) {
