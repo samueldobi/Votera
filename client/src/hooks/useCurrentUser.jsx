@@ -11,7 +11,6 @@ import axios from 'axios';
     const apiUrl = import.meta.env.VITE_API_URL;
     const fetchUser = async () => {
       try {
-        // console.log("About to fetch /getuser");
         const token = localStorage.getItem('userToken');
         const res = await axios.get(`${apiUrl}/getuser`, {
           headers: { 

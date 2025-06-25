@@ -2,10 +2,11 @@
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 const Poll = require('../models/polldetails')
+const sendEmail = require('../utilities/mailer')
 
 // Error Functions
 const handleErrors =(err)=>{
-    console.log(err.message, err.code)
+    // console.log(err.message, err.code)
     let errors = {email: '', username:'', password:''}
     // Duplicate email error
     if(err.code ===11000){
@@ -49,6 +50,7 @@ module.exports.signup_post = async (req, res)=>{
     }
 
     const{ username, email, password} = req.body;
+    // User creation
     try{
         const newUser = await User.create({username,email,password})
         const token = createToken(newUser._id)
@@ -66,6 +68,14 @@ module.exports.signup_post = async (req, res)=>{
     }catch(err){
         const errors = handleErrors(err)
         res.status(400).json({errors}); 
+    }
+    // Send email fron nodemailer
+    try{
+        await sendEmail(email, 'Welcome to Votera!',`
+            <h1>Welcome ${username}!</h1>`
+        )  
+    }catch(err){
+        console.log(err)
     }
  
 }  
@@ -160,6 +170,17 @@ module.exports.get_poll_details = async ( req,res) =>{
         console.error('Error fetching poll:', err);
         res.status(500).json({ error: 'Failed to fetch poll' });
     }
+        try{
+        await sendEmail(email, 'You have just created a new vote',`
+            <h1>Hi ${username}!</h1>
+            <p>Share this link with others to vote</p>
+            `
+        )  
+    }catch(err){
+        console.log(err)
+    }
+ 
+    
 }
 module.exports.add_vote =  async(req,res)=>{
     console.log("Vote route hit");

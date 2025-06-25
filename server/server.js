@@ -56,8 +56,6 @@ app.listen(PORT, () => {
 app.use(authRoutes);
 // Routes for poll functions
 app.use(pollRoutes);
-// checkUser
-// app.use('*', checkUser)
 app.get(/.*/, (req, res, next) => {
   // console.log('Matched all GET routes');
   next();

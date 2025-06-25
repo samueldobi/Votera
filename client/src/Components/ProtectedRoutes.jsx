@@ -17,7 +17,6 @@ const ProtectedRoutes = () => {
                     Authorization: `Bearer ${token}`
                 }
              })
-            //  console.log('tis is the response:',response)
             if(response.status === 200 && response.data.message ===  'Success, User Verified'){
                 setAuth(true)
                 console.log('the user has been verified')

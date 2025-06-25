@@ -39,12 +39,12 @@ const checkUser = async  (req, res, next) =>{
                 return next();
             }else{
                  try {
-                    console.log('Decoded token:', decodedToken);
+
                     const userId = decodedToken.id; 
-                    console.log('User ID:', userId);
+
                     
                     let user = await User.findById(userId);
-                    console.log('Found user:', user ? user.username : 'No user found');
+                    // console.log('Found user:', user ? user.username : 'No user found');
                     
                     res.locals.user = user;
                     next();
