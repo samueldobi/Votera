@@ -149,21 +149,14 @@ module.exports.get_current_user =  async (req, res)=>{
 }
 // Poll details routes
 module.exports.save_poll_details = async ( req, res)=>{
-    const {email,username } = req.body;
-    //  const sendPollCreatorEmail=  await User.findOne({email:email})
+  
     try{
         const pollData = req.body
         const newPollData = new Poll(pollData);
-        const userEmail = newPollData.email;
-        const userName = newPollData.username;
         const updatedPoll = await newPollData.save();
+   
 
-        // Send vote creation email
-        await sendEmail(userEmail, `Congrats,${userName} You have successfully created A New Poll !`,`
-            <h1>The poll will last for ....</h1>
-                <p>Share this link to people you want to vote <a href = "https://votera.vercel.app/login">Now</a></p>
-            `
-        )   
+      
         res.status(201).json(updatedPoll)
     }catch(err){
         console.error('Error saving poll:', err);
@@ -186,21 +179,11 @@ module.exports.get_poll_details = async ( req,res) =>{
         console.error('Error fetching poll:', err);
         res.status(500).json({ error: 'Failed to fetch poll' });
     }
-        try{
-        await sendEmail(email, 'You have just created a new vote',`
-            <h1>Hi ${username}!</h1>
-            <p>Share this link with others to vote</p>
-            `
-        )  
-    }catch(err){
-        console.log(err)
-    }
- 
     
 }
 module.exports.add_vote =  async(req,res)=>{
     console.log("Vote route hit");
-    // const { id } = req.params;
+   
     const {pollId, contestantId} = req.body;
     try{
         const poll = await Poll.findById(pollId);

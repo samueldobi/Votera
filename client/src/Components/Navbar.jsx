@@ -22,7 +22,7 @@ export default function Navbar() {
   // import backend api url
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  const currentUser = useCurrentUser();
+  const {currentUser} = useCurrentUser();
   const userNavigation = [
   { name: `Hello ${currentUser}`, href: '#' },
   { name: 'Settings', href: '#' },
