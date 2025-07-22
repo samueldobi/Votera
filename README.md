@@ -41,5 +41,4 @@ cd client
 npm run dev
 
 Sneak Peek
-![Votera Screenshot](./client/public/screenshots/votera-1.png)
-![Votera Screenshot](./client/public/screenshots/votera-2.png)
+ https://github.com/samueldobi/Votera/blob/main/client/public/Screenshots/votera-1.png?raw=true
