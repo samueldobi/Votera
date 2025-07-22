@@ -41,4 +41,4 @@ cd client
 npm run dev
 
 Sneak Peek
- https://github.com/samueldobi/Votera/blob/main/client/public/Screenshots/votera-1.png?raw=true
+<img width="1288" height="550" alt="Image" src="https://github.com/user-attachments/assets/e6c3e1d3-5078-4b00-9a71-e12763d83519" />
