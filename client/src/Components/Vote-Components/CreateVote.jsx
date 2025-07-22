@@ -9,6 +9,7 @@ import DatePick from './DatePick';
 import dayjs from 'dayjs';
 import AlertBox from './AlertBox';
 import ContestantTable from './ContestantTable';
+import useCurrentUser from '../../hooks/useCurrentUser';
 
 
 const CreateVote = () => {
@@ -34,6 +35,8 @@ const CreateVote = () => {
     const [checkDate, setCheckDate] = useState(false);
     const [checkPastDate, setCheckPastDate] = useState(false);
     const [checkFutureDate, setCheckFutureDate] = useState(false);
+    // useCurrentUser email
+    const{ currentUserEmail, currentUser} = useCurrentUser();
     // State for the general poll name and poll details
     const [formDetails, setFormDetails] = useState({
         name:'',
@@ -110,6 +113,7 @@ const CreateVote = () => {
     const prevStep = () => setStep((prev) => prev - 1);
     // Initialize use navigate
     const navigate = useNavigate(); 
+
     // Handle the submission of the final poll data 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -146,8 +150,6 @@ const CreateVote = () => {
             endDate: endDate.toDate()
         }
         setPollData(updatedPoll)
-
-        console.log(JSON.stringify(pollData))
         try{
             const response = await axios.post(`${apiUrl}/savepolldetails`, updatedPoll,{
             withCredentials: true

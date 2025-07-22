@@ -5,7 +5,7 @@ import axios from 'axios';
 
  const useCurrentUser = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  const [currentUserEmail, setCurrentUserEmail] = useState(null);
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -20,6 +20,7 @@ import axios from 'axios';
         });
         if (res.data.success) {
           setCurrentUser(res.data.user.username);
+          setCurrentUserEmail(res.data.user.email);
           console.log('it worked')
         } else {
           setCurrentUser(null);
@@ -33,6 +34,6 @@ import axios from 'axios';
     fetchUser();
   }, []);
 
-  return currentUser; // Very Important 
+  return {currentUser, currentUserEmail}; 
 };
 export default useCurrentUser
