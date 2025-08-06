@@ -18,7 +18,7 @@ function App() {
 
   return (
     <Router>
-    <div className="w-full">
+    <div className="w-full  bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar/>
       <div className='content-body'>
         <Routes>
@@ -31,10 +31,8 @@ function App() {
           <Route  element={<ProtectedRoutes/>}>
             <Route path='vote' element= {<Vote/>}/>
             <Route path='create-vote' element= {<CreateVote/>}/>
-
           </Route>
           {/* Protected Routes */}
-
           <Route path='*' element= {<Notfound/>}/>
         </Routes>
         <Footer/>
