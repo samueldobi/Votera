@@ -40,6 +40,9 @@ nodemon server
 cd client
 npm run dev
 
-Sneak Peek
-![Votera Screenshot](./client/public/screenshots/votera-1.png)
-![Votera Screenshot](./client/public/screenshots/votera-2.png)
+# Sneak Peek
+<img width="1288" height="550" alt="Image" src="https://github.com/user-attachments/assets/e6c3e1d3-5078-4b00-9a71-e12763d83519" />
+
+<img width="1335" height="588" alt="Image" src="https://github.com/user-attachments/assets/c1188053-f88f-42d5-9f0c-096638fb8e10" />
+
+<img width="1263" height="505" alt="votera-2" src="https://github.com/user-attachments/assets/47dd37b6-e5bb-4a9c-a00b-95deb972498b" />
