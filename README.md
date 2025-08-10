@@ -41,8 +41,8 @@ cd client
 npm run dev
 
 # Sneak Peek
-<img width="1288" height="550" alt="Image" src="https://github.com/user-attachments/assets/e6c3e1d3-5078-4b00-9a71-e12763d83519" />
+<img width="1346" height="581" alt="Image" src="https://github.com/user-attachments/assets/dc642964-c78f-4308-a2b4-235957856100" />
 
-<img width="1335" height="588" alt="Image" src="https://github.com/user-attachments/assets/c1188053-f88f-42d5-9f0c-096638fb8e10" />
+<img width="1346" height="582" alt="Image" src="https://github.com/user-attachments/assets/dce3dd8d-d084-4d53-85ee-201b0942540a" />
 
-<img width="1263" height="505" alt="votera-2" src="https://github.com/user-attachments/assets/47dd37b6-e5bb-4a9c-a00b-95deb972498b" />
+
