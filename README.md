@@ -45,6 +45,4 @@ npm run dev
 
 <img width="1346" height="582" alt="Image" src="https://github.com/user-attachments/assets/dce3dd8d-d084-4d53-85ee-201b0942540a" />
 
-<img width="1335" height="588" alt="Image" src="https://github.com/user-attachments/assets/c1188053-f88f-42d5-9f0c-096638fb8e10" />
 
-<img width="1263" height="505" alt="votera-2" src="https://github.com/user-attachments/assets/47dd37b6-e5bb-4a9c-a00b-95deb972498b" />
