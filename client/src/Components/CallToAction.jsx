@@ -1,6 +1,7 @@
 import {CtaIcon} from '../assets/SvgIcons'
 import Button from './Button'
 export default function CallToAction() {
+  
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
