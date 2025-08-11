@@ -70,120 +70,178 @@ useEffect(() => {
     setHasVoted(true);
   }
 }, [id]);
-// check if the user is admin so that he can have a link to share to others
-// useEffect(() => {
-//   const checkUser = async ()=>{
-//     try{
-//       const response = await axios.get(`${apiUrl}/checkuser`,
-//         {withCredentials:true}
-//       )
-//       if(response.status === 200){
-//         console.log('it is working now ')
-//         setValidUser(true);
-//       }
-//     }catch(err){
-//       console.log(err)
-//     }
-//   }
-//   checkUser();
-// }, []);
 // Display the countDown for Each vote
 
-  if (loading) return
-  <div className='flex items-center'>
-    <Progressbar/>;
-  </div> 
-  if (!poll) return <p>No poll found.</p>;
-
-  return (
-    hasVoted ?(
-       <div>
-         <div>
-            {/* share the link  */}
-            <Sharelink pollId={poll._id} />
-          {/* share the link  */}
-         </div>
-          <div>
-            {/* Countdown component */}
-            <CountDown id={id}/>
-            {/* Countdown component */}
-          </div>
-         <div className="max-w-3xl mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-4"> Voting Results</h1>
-                 <ul className="grid gap-4">
-        {poll.contestants.map((contestant, index) => (
-          <li key={index} className="flex items-center justify-between gap-4 bg-white shadow p-4 rounded-lg">
-            <img
-              className="h-16 w-16 rounded-full object-cover"
-              src={contestant.picture || 'https://via.placeholder.com/64'}
-              alt={contestant.name}
-            />
-            <div>
-              <p className="text-lg font-medium">{contestant.name}</p>
-              <p className="text-gray-600 text-sm">{contestant.about}</p>
-            </div>
-            {/* contestant scores */}
-            <div>
-              <p className="text-lg font-semibold">{contestant.votes} vote{contestant.votes !== 1 && 's'}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-         </div>
-       </div>
-    ) : (
-          <div className="max-w-3xl mx-auto px-4 py-8">
-             {/* share the link  */}
-                 <div>
-            {/* share the link  */}
-            <Sharelink pollId={poll._id} />
-          {/* share the link  */}
-         </div>
-          <div>
-            {/* Countdown component */}
-            <CountDown id={id}/>
-            {/* Countdown component */}
-          </div>
-                     {/* share the link  */}
-      <div className="">
-              <h1 className="text-2xl font-bold mb-4">{poll.name}</h1>
-      <p className="mb-6 text-gray-700">{poll.about}</p>
-
-      <h2 className="text-xl font-semibold mb-4">Vote for a contestant</h2>
-      <ul className="grid gap-4">
-        {poll.contestants.map((contestant, index) => (
-          <li key={index} className="flex items-center justify-between gap-4 bg-white shadow p-4 rounded-lg">
-            <img
-              className="h-16 w-16 rounded-full object-cover"
-              src={contestant.picture || 'https://via.placeholder.com/64'}
-              alt={contestant.name}
-            />
-            <div>
-              <p className="text-lg font-medium">{contestant.name}</p>
-              <p className="text-gray-600 text-sm">{contestant.about}</p>
-            </div>
-            <div className="radiobtn">
-              <Checkbox
-                checked={selectedContestantId === contestant._id || false}
-                onChange={() =>{
-                  // console.log("Selected contestant ID:", contestant._id);
-                  setSelectedContestantId(contestant._id)}
-                } 
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="button m-3 p-3">
-        <Button text={"place vote"} onClick = {submitVote}/>
-      </div>
-      </div>
-
+if (loading) return (
+  <div className='min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center'>
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+      <Progressbar/>
     </div>
+  </div>
+);
 
-    )
+if (!poll) return (
+  <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center">
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+      <p className="text-gray-600 text-lg">No poll found.</p>
+    </div>
+  </div>
+);
 
-  );
+return (
+  <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100">
+    {hasVoted ? (
+      <div className="container mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-orange-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-400 to-amber-400 p-6">
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <div>
+                  <h1 className="text-3xl font-bold text-white mb-2">Voting Results</h1>
+                  <p className="text-orange-100">Thank you for participating!</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
+                    <Sharelink pollId={poll._id} />
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
+                    <CountDown id={id}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Section */}
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-orange-100 p-8">
+            <ul className="grid gap-6">
+              {poll.contestants.map((contestant, index) => (
+                <li key={index} className="group relative overflow-hidden bg-gradient-to-r from-white to-orange-50 hover:from-orange-50 hover:to-amber-50 border border-orange-200 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="flex items-center gap-6 p-6">
+                    <div className="relative">
+                      <img
+                        className="h-20 w-20 rounded-full object-cover border-4 border-orange-200 shadow-md group-hover:border-orange-300 transition-colors duration-300"
+                        src={contestant.picture || 'https://via.placeholder.com/80'}
+                        alt={contestant.name}
+                      />
+                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-orange-400 to-amber-400 text-white text-xs font-bold rounded-full h-8 w-8 flex items-center justify-center shadow-lg">
+                        #{index + 1}
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+                        {contestant.name}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">{contestant.about}</p>
+                    </div>
+                    
+                    <div className="text-center bg-gradient-to-br from-orange-400 to-amber-400 text-white rounded-xl p-4 shadow-lg min-w-[100px]">
+                      <div className="text-2xl font-bold mb-1">{contestant.votes}</div>
+                      <div className="text-sm text-orange-100">
+                        vote{contestant.votes !== 1 && 's'}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative accent */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-amber-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className="container mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="max-w-4xl mx-auto mb-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-orange-100 overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-400 to-amber-400 p-6">
+              <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+                <div className="flex-1">
+                  <h1 className="text-3xl font-bold text-white mb-3">{poll.name}</h1>
+                  <p className="text-orange-100 text-lg leading-relaxed">{poll.about}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
+                    <Sharelink pollId={poll._id} />
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-sm rounded-xl p-3">
+                    <CountDown id={id}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Voting Section */}
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-orange-100 p-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent mb-2">
+                Vote for a Contestant
+              </h2>
+              <p className="text-gray-600">Choose your favorite contestant to cast your vote</p>
+            </div>
+
+            <ul className="grid gap-6 mb-8">
+              {poll.contestants.map((contestant, index) => (
+                <li key={index} className="group relative overflow-hidden bg-gradient-to-r from-white to-orange-50 hover:from-orange-50 hover:to-amber-50 border-2 border-orange-200 hover:border-orange-300 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+                  <div className="flex items-center gap-6 p-6">
+                    <div className="relative">
+                      <img
+                        className="h-20 w-20 rounded-full object-cover border-4 border-orange-200 shadow-md group-hover:border-orange-300 transition-colors duration-300"
+                        src={contestant.picture || 'https://via.placeholder.com/80'}
+                        alt={contestant.name}
+                      />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+                        {contestant.name}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">{contestant.about}</p>
+                    </div>
+                    
+                    <div className="radiobtn flex-shrink-0">
+                      <div className="bg-white rounded-full p-2 shadow-md border-2 border-orange-200">
+                        <Checkbox
+                          checked={selectedContestantId === contestant._id || false}
+                          onChange={() => {
+                            setSelectedContestantId(contestant._id);
+                          }} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Selection indicator */}
+                  <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-amber-400 transition-all duration-300 ${
+                    selectedContestantId === contestant._id ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  }`}></div>
+                </li>
+              ))}
+            </ul>
+
+            {/* Vote Button */}
+            <div className="text-center">
+              <div className="inline-block bg-gradient-to-r from-orange-400 to-amber-400 p-1 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <div className="bg-white rounded-xl px-8 py-3">
+                  <Button text={"Place Vote"} onClick={submitVote}/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Votepage
