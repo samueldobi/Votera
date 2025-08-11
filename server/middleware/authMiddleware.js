@@ -3,6 +3,8 @@ const User = require('../models/users');
 
 
 const secretString = process.env.JWT_SECRET
+
+// Middleware to require authentication for protected routes
 const requireAuth = (req, res, next)=>{
     let token = req.cookies.jwt
     const authHeader = req.headers.authorization
@@ -39,12 +41,8 @@ const checkUser = async  (req, res, next) =>{
                 return next();
             }else{
                  try {
-
-                    const userId = decodedToken.id; 
-
-                    
+                    const userId = decodedToken.id;             
                     let user = await User.findById(userId);
- 
                     res.locals.user = user;
                     next();
                 } catch (dbError) {
