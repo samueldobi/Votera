@@ -8,6 +8,7 @@ import Progressbar from '../Components/Progressbar';
 import Sharelink from '../Components/Vote-Components/Sharelink';
 import dayjs from 'dayjs';
 import CountDown from '../Components/Vote-Components/CountDown';
+import socket from '../utils/socket';
 // import {useCurrentUser} from '../hooks/useCurrentUser';
 
 const Votepage = () => {
@@ -69,6 +70,31 @@ useEffect(() => {
     setHasVoted(true);
   }
 }, [id]);
+// Listen for real-time poll updates
+useEffect(() => {
+  const handlePollUpdate = ({ pollId, contestantId, newVoteCount }) => {
+    if (pollId === poll?._id) {
+      console.log("Received poll update via socket");
+      setPoll((prevPoll) => {
+        if (!prevPoll) return prevPoll;
+        const updatedContestants = prevPoll.contestants.map((contestant) => {
+          if (contestant._id === contestantId) {
+            return { ...contestant, votes: newVoteCount };
+          }
+          return contestant;
+        });
+        return { ...prevPoll, contestants: updatedContestants };
+      });
+    }
+  };
+
+  socket.on('pollUpdated', handlePollUpdate);
+
+  // Cleanup
+  return () => {
+    socket.off('pollUpdated', handlePollUpdate);
+  };
+}, [poll?._id]);
 // Display the countDown for Each vote
 
 if (loading) return (
@@ -79,13 +105,13 @@ if (loading) return (
   </div>
 );
 
-if (loading) return (
-  <div className='min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center'>
-    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
-      <Progressbar/>
-    </div>
-  </div>
-);
+// if (loading) return (
+//   <div className='min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center'>
+//     <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+//       <Progressbar/>
+//     </div>
+//   </div>
+// );
 
 if (!poll) return (
   <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 flex items-center justify-center">

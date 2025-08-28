@@ -26,7 +26,7 @@ export default function Navbar() {
 
   const userNavigation = [
     { name: `Hello ${currentUser}`, href: '#' },
-    { name: 'Settings', href: '#' },
+    { name: 'Dashboard', href: '#' },
     { name: 'Sign out', href: null },
   ]
 
