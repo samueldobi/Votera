@@ -6,5 +6,5 @@ const pollRouter = Router();
 // connect routes
 pollRouter.post('/savepolldetails', pollController.save_poll_details);
 pollRouter.get('/getpolldetails/:id', pollController.get_poll_details);
-pollRouter.get('/poll/:pollid/vote/:contestantId', pollController.vote_for_contestant);
+pollRouter.post('/vote', pollController.add_vote);
 module.exports = pollRouter;
