@@ -1,8 +1,9 @@
 // Import user schema
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
-const Poll = require('../models/polldetails')
-const sendEmail = require('../utilities/mailer')
+const Poll = require('../models/polldetails');
+const sendEmail = require('../utilities/mailer');
+const {welcomeEmailTemplate} = require('../utilities/emailTemplates');
 
 // Error Functions
 const handleErrors =(err)=>{
@@ -71,13 +72,10 @@ module.exports.signup_post = async (req, res)=>{
     }
     // Send email fron nodemailer
     try{
-        await sendEmail(email, 'Welcome to Votera!',`
-            <h1>Welcome ${username}!</h1>
-            <p>Thanks for signing up to Votera!</p></br>
-            <p>You're now part of a community where your vote counts.
-            Start exploring polls, cast your vote, or create your own. </p>
-             <p>Start a poll  <a href = "https://votera.vercel.app/login">Now</a></p>
-            `
+        await sendEmail(
+            email, 
+            'Welcome to Votera!',
+            welcomeEmailTemplate(username)
         )  
     }catch(err){
         console.log(err)
@@ -154,9 +152,6 @@ module.exports.save_poll_details = async ( req, res)=>{
         const pollData = req.body
         const newPollData = new Poll(pollData);
         const updatedPoll = await newPollData.save();
-   
-
-      
         res.status(201).json(updatedPoll)
     }catch(err){
         console.error('Error saving poll:', err);

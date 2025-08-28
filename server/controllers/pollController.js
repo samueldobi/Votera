@@ -1,6 +1,8 @@
+// Import user schema
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 const Poll = require('../models/polldetails')
+
 
 module.exports.save_poll_details = async ( req, res)=>{
     try{
