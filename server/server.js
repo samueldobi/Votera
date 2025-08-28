@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
-// initialize allowed origins for cors first before using cors middleware
+//initialize allowed origins for cors first before using cors middleware
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
@@ -27,7 +27,7 @@ const authRoutes = require('./routes/authRoutes');
 // auth route for user authentication before login
 const {requireAuth, checkUser} = require('./middleware/authMiddleware')
 
-//fix cors issue
+//handle cors 
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -48,7 +48,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // make the io accessible to other files
 app.set('io', io);
-
 //  Listen for socket connections
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
