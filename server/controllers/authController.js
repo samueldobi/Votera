@@ -167,13 +167,12 @@ module.exports.get_poll_details = async ( req,res) =>{
     try {
         const { id } = req.params; // or req.query.id if using query params
         const poll = await Poll.findById(id);
-       
-        
         if (!poll) {
             return res.status(404).json({ error: 'Poll not found' });
         }
-        
-        res.status(200).json(poll);
+         const now = new Date();
+        const isVotingClosed = now > poll.endDate; // Check if voting time has ended
+        res.status(200).json({poll, isVotingClosed});
          console.log(poll)
     } catch (err) {
         console.error('Error fetching poll:', err);
@@ -189,14 +188,19 @@ module.exports.add_vote =  async(req,res)=>{
     try{
         const poll = await Poll.findById(pollId);
         if (!poll) return res.status(404).json({ message: "Poll not found" });
-        // 
+        // Check if voting time has ended
+        const now = new Date();
+        if(now > poll.endDate){
+            console.log("Voting for this poll  has ended");
+            return res.status(400).json({message: "Voting for this poll  has ended"})
+        }
         const contestant = poll.contestants.id(contestantId);
         if (!contestant) return res.status(404).json({ message: "Contestant not found" });
         contestant.votes += 1;
         await poll.save();
         // Emit updated poll data to all connected clients
         io.emit('pollUpdated', { pollId, contestantId, newVoteCount: contestant.votes });
-        console.log("Vote counted and update emitted");
+
         res.status(200).json({ message: "Vote counted successfully" });
     }catch(err){
             console.error(err);

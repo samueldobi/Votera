@@ -4,6 +4,7 @@ const { checkUser } = require('../middleware/authMiddleware');
 
 
 
+
 // initialize auth router
 const authRouter = Router();
 authRouter.post('/signup', authController.signup_post);
