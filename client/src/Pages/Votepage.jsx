@@ -57,8 +57,10 @@ const submitVote = async() =>{
       });
       const updatedPoll = await axios.get(`${apiUrl}/getpolldetails/${id}`);
       setPoll(updatedPoll.data)
+      setVotingClosed(updatedPoll.data.isVotingClosed)
         // if voting is succesfull
-        localStorage.setItem(`hasVoted_${poll._id}`, 'true');
+        // localStorage.setItem(`hasVoted_${poll._id}`, 'true');
+        localStorage.setItem(`hasVoted_${id}`, 'true');
         setHasVoted(true);
       // console.log("Vote successful:", response.data);
     }catch(err){
