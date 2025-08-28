@@ -3,24 +3,31 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
-const authRoutes = require('./routes/authRoutes');
-const pollRoutes = require('./routes/pollRoutes')
 const cookieParser = require('cookie-parser');
-// Web socket setup
-const http = require('http');
-const server = http.createServer(app);
-const {Server } = require('socket.io');
-const io = new Server (server)
-
-// auth route for user authentication before login
-const {requireAuth, checkUser} = require('./middleware/authMiddleware')
-
-//attempt to fix cors issue
+// initialize allowed origins for cors first before using cors middleware
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://votera.vercel.app'
 ];
+// Web socket setup
+const http = require('http');
+const server = http.createServer(app);
+const {Server } = require('socket.io');
+const io = new Server (server,{
+    cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+})
+
+const pollRoutes = require('./routes/pollRoutes');
+const authRoutes = require('./routes/authRoutes');
+// auth route for user authentication before login
+const {requireAuth, checkUser} = require('./middleware/authMiddleware')
+
+//fix cors issue
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -39,22 +46,28 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 // cookier parser 
 app.use(cookieParser());
+// make the io accessible to other files
+app.set('io', io);
 
-
+//  Listen for socket connections
+io.on('connection', (socket) => {
+  console.log('User connected:', socket.id);
+});
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 5000;
 mongoose.connect(dbURI, {
     serverSelectionTimeoutMS: 10000
 })
-  .then(() => app.listen(5000, ()=>{console.log("mongodb connected succesfully")}))
+  .then(() => {
+        console.log("MongoDB connected successfully");
+        server.listen(PORT, () => { 
+          console.log(`Server running on port ${PORT}`);
+        })
+        })
   .catch((err) => console.error("MongoDB connection error:", err));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}); 
-// make the io accessible to other files
-app.set('io', io);
+
 // Routes for user registration
 app.use(authRoutes);
 // Routes for poll functions
@@ -67,13 +80,6 @@ app.get(/.*/, (req, res, next) => {
 app.get('/protectedRoutes', requireAuth, (req,res)=>{
    res.status(200).json({ message: 'Success, User Verified', user: req.user });
 }); 
-app.get('/api/test-auth', requireAuth, (req, res) => {
-    res.json({ 
-        message: 'Auth working!', 
-        user: req.user,
-        timestamp: new Date().toISOString()
-    });
-});
 app.get('/check-cookies', (req, res) => {
   console.log("Cookies received:", req.cookies);
   res.json({ cookies: req.cookies });
