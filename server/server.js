@@ -4,11 +4,13 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
 const authRoutes = require('./routes/authRoutes');
-
 const pollRoutes = require('./routes/pollRoutes')
-
 const cookieParser = require('cookie-parser');
-// .dotenv import
+// Web socket setup
+const http = require('http');
+const server = http.createServer(app);
+const {Server } = require('socket.io');
+const io = new Server (server)
 
 // auth route for user authentication before login
 const {requireAuth, checkUser} = require('./middleware/authMiddleware')
@@ -51,7 +53,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 }); 
-
+// make the io accessible to other files
+app.set('io', io);
 // Routes for user registration
 app.use(authRoutes);
 // Routes for poll functions

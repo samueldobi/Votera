@@ -183,7 +183,8 @@ module.exports.get_poll_details = async ( req,res) =>{
 }
 module.exports.add_vote =  async(req,res)=>{
     console.log("Vote route hit");
-   
+    // io for websocket
+    const io = req.app.get('io');
     const {pollId, contestantId} = req.body;
     try{
         const poll = await Poll.findById(pollId);
@@ -193,6 +194,9 @@ module.exports.add_vote =  async(req,res)=>{
         if (!contestant) return res.status(404).json({ message: "Contestant not found" });
         contestant.votes += 1;
         await poll.save();
+        // Emit updated poll data to all connected clients
+        io.emit('pollUpdated', { pollId, contestantId, newVoteCount: contestant.votes });
+        console.log("Vote counted and update emitted");
         res.status(200).json({ message: "Vote counted successfully" });
     }catch(err){
             console.error(err);
