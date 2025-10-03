@@ -23,6 +23,10 @@ body {
   overflow-x:hidden;
   background-color:#f9fafb ;
 }
+.content-body{
+  width:100vw;
+  overflow-x:hidden;
+}
 .navbar{
   width:100vw;
 }
