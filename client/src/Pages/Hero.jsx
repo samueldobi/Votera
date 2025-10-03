@@ -5,8 +5,11 @@ import { Shield, Zap, BarChart3, Globe, Lock, Timer, TrendingUp, Users, Sparkles
 const Hero = () => {
   return (
 
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 py-16 sm:py-24">
-  <div className="">
+      <div className="w-full relative overflow-hidden bg-cover bg-center"
+      style={{ backgroundImage: "url('/images/wave.svg')" }} >
+            <div className="absolute inset-0 backdrop-blur-[2px]"></div>
+
+  <div className="relative">
     {/* Background decorations */}
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div className="absolute -top-40 -right-32 w-96 h-96 bg-gradient-to-r from-violet-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
@@ -19,7 +22,7 @@ const Hero = () => {
           {/* Tagline with animated elements */}
           <div className="flex items-center justify-center gap-3 mb-6">
             <Sparkles className="w-5 h-5 text-orange-500 animate-spin" />
-            <h2 className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent text-base font-bold tracking-wide uppercase animate-fade-in">
+            <h2 className="text-[#fff] bg-clip-text  mt-5 text-base font-bold tracking-wide uppercase animate-fade-in">
               Vote, Decide, Empower
             </h2>
             <Sparkles className="w-5 h-5 text-orange-500 animate-spin delay-300" />
@@ -28,16 +31,16 @@ const Hero = () => {
           {/* Main headline with gradient text */}
           <h1 className="mx-auto mt-4 max-w-4xl text-center font-bold tracking-tight text-balance animate-slide-up">
             <span className="block text-4xl sm:text-6xl lg:text-7xl mb-4">
-              <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+              <span className="text-[#0e0808]  bg-clip-text ">
                 Votera makes
               </span>
             </span>
             <span className="block text-4xl sm:text-6xl lg:text-7xl">
-              <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <span className="text-[#fff] bg-clip-text ">
                 online voting
               </span>
             </span>
-            <span className="block text-2xl sm:text-4xl lg:text-5xl mt-4 text-gray-700 font-medium">
+            <span className="block text-2xl sm:text-4xl lg:text-5xl mt-4 text-[#0e0808] font-medium">
               easy, secure & accessible
             </span>
           </h1>
