@@ -2,14 +2,14 @@ Votera is a secure and user-friendly web-based voting platform that enables tran
 
 Features
 
-- 🔐 Secure voter authentication
-- 🧑‍🤝‍🧑 Role-based access for voters and administrators
-- 🗳️ Easy ballot creation and management
-- 📊 Real-time result display
-- 💬 Optional candidate manifestos or descriptions
-- 📱 Responsive UI for all screen sizes
+-  Secure voter authentication
+-  Role-based access for voters and administrators
+-  Easy ballot creation and management
+-  Real-time result display
+-  Optional candidate manifestos or descriptions
+-  Responsive UI for all screen sizes
 
-- ## ⚙️ Tech Stack
+- ##  Tech Stack
 
 - Frontend: React + Tailwind CSS
 - Backend: Node.js + Express
