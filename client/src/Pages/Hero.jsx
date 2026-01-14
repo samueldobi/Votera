@@ -1,13 +1,18 @@
-import React from 'react';
-import Button from '../Components/Button';
 import { Shield, Zap, BarChart3, Globe, Lock, Timer, TrendingUp, Users, Sparkles, Vote, UserPlus, ArrowRight  } from 'lucide-react';
-
+// import globe1 from '../../public/images/globe.svg';
+// import globe2 from '../../public/images/globe.svg';
+// import globe3 from '../../public/images/globe.svg';
+// const icons = [globe1, globe2, globe3];
+const icons = [
+  '/images/globe.svg',
+  '/images/globe.svg',
+  '/images/globe.svg',
+];
 const Hero = () => {
   return (
 
-      <div className="w-full relative overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/wave.svg')" }} >
-            <div className="absolute inset-0 backdrop-blur-[2px]"></div>
+      <div className="w-full relative overflow-hidden bg-cover bg-center ">
+            <div className="absolute inset-0 backdrop-blur-[2px] "></div>
 
   <div className="relative">
     {/* Background decorations */}
@@ -22,7 +27,7 @@ const Hero = () => {
           {/* Tagline with animated elements */}
           <div className="flex items-center justify-center gap-3 mb-6">
             <Sparkles className="w-5 h-5 text-orange-500 animate-spin" />
-            <h2 className="text-[#fff] bg-clip-text  mt-5 text-base font-bold tracking-wide uppercase animate-fade-in">
+            <h2 className="text-[000] bg-clip-text  mt-5 text-base font-bold tracking-wide uppercase animate-fade-in">
               Vote, Decide, Empower
             </h2>
             <Sparkles className="w-5 h-5 text-orange-500 animate-spin delay-300" />
@@ -36,7 +41,7 @@ const Hero = () => {
               </span>
             </span>
             <span className="block text-4xl sm:text-6xl lg:text-7xl">
-              <span className="text-[#fff] bg-clip-text ">
+              <span className="text-[#000] bg-clip-text ">
                 online voting
               </span>
             </span>
@@ -299,11 +304,20 @@ const Hero = () => {
                     <div className="text-2xl font-bold">150+</div>
                     <div className="text-sm opacity-80">Countries Supported</div>
                     <div className="flex justify-center gap-2 mt-4">
-                      {['🌍', '🌎', '🌏'].map((emoji, i) => (
+                      {/* {icons.map((emoji, i) => (
                         <div key={i} className="text-2xl animate-bounce" style={{animationDelay: `${i * 0.2}s`}}>
                           {emoji}
                         </div>
-                      ))}
+                      ))} */}
+                      {icons.map((src, i) => (
+                          <img
+                            key={i}
+                            src={src}
+                            className="w-8 h-8 animate-bounce"
+                            style={{ animationDelay: `${i * 0.2}s` }}
+                          />
+                        ))}
+
                     </div>
                   </div>
                 </div>
