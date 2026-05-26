@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
 });
 // Connect to mongodb
 const dbURI = process.env.MONGODB_URI;
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 mongoose.connect(dbURI, {
     serverSelectionTimeoutMS: 10000
 })
