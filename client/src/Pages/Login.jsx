@@ -1,131 +1,106 @@
-import React from 'react'
-import { useState } from 'react';
-// import axios from "axios";
-import AlertBox from '../Components/Vote-Components/AlertBox';
-// import { useNavigate, useLocation } from 'react-router-dom';
-import { useRedirectAfterAuth } from '../hooks/useRedirectAfterAuth';
-import apiClient from '../utils/Config';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import AlertBox from '../Components/Vote-Components/AlertBox'
+import { useRedirectAfterAuth } from '../hooks/useRedirectAfterAuth'
+import apiClient from '../utils/Config'
 
-// Login Component
 const Login = () => {
-  // API URL FOR BACKEND CALLS
-  const apiUrl = import.meta.env.VITE_API_URL;
-  // State for the login form
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password:''
-  });
-  // Use Location
-  const redirectAfterAuth = useRedirectAfterAuth('/');
-    // state to populate the alertbox for login error
-  const[ loginError, setLoginError] = useState('');
-  const handleChange = (e)=>{
-    const updatedForm = {...loginForm, [e.target.name]:e.target.value}
-    setLoginForm(updatedForm)
+  const apiUrl = import.meta.env.VITE_API_URL
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' })
+  const redirectAfterAuth = useRedirectAfterAuth('/')
+  const [loginError, setLoginError] = useState('')
+
+  const handleChange = (e) => {
+    setLoginForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
-  const handleLogin = async (e)=>{
-    e.preventDefault();
-    try{
-      const response = await apiClient.post(`${apiUrl}/login`, loginForm,{
-         withCredentials: true, // Still send cookies
-            headers: {
-                'Content-Type': 'application/json'
-            }
-      });
-      // Store token in local storage for mobile fallback
-      if(response.data.token){
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await apiClient.post(`${apiUrl}/login`, loginForm, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (response.data.token) {
         localStorage.setItem('userToken', response.data.token)
-        // console.log(response.data)
       }
-      // Hook to redirect user after succesfull authentication
-      redirectAfterAuth();
-    }catch(error){
-      const showError = error.response.data 
-      setLoginError(showError.error)
+      redirectAfterAuth()
+    } catch (error) {
+      setLoginError(error.response?.data?.error || 'Login failed')
     }
   }
-  return (
-    <>
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Votera"
-          src="images/votera-icon.svg"
-          className="mx-auto h-20 w-auto"
-        />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-          Login to your account
-        </h2>
-        <div>
-          {loginError && <AlertBox text ={loginError}/>}
-        </div>
-      </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form  method="POST" 
-          className="space-y-6"
-          onSubmit = { handleLogin }
-          onChange={handleChange}
-        >
-          <div>
-            <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-              Email address
-            </label>
-            <div className="mt-2">
+  return (
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-margin-mobile py-stack-lg bg-surface-background">
+      <div className="w-full max-w-md">
+        <div className="bg-white border border-outline-variant rounded-xl p-8 md:p-10 shadow-sm">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-accent-orange-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="material-symbols-outlined text-primary text-3xl">how_to_vote</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-on-background">Welcome back</h1>
+            <p className="text-on-surface-variant mt-2">Sign in to your Votera account</p>
+          </div>
+
+          {loginError && (
+            <div className="mb-6">
+              <AlertBox text={loginError} />
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} onChange={handleChange} className="space-y-5">
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-on-background mb-1.5">
+                Email address
+              </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
                 autoComplete="email"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-lg bg-surface-subtle border border-outline-variant px-4 py-3 text-on-background placeholder:text-on-surface-variant focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                placeholder="you@example.com"
               />
             </div>
-          </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                Password
-              </label>
-              <div className="text-sm">
-                <a href="#" className="orange-color font-semibold text-indigo-600 hover:text-indigo-500">
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="password" className="block text-sm font-semibold text-on-background">
+                  Password
+                </label>
+                <a href="#" className="text-sm text-primary hover:underline underline-offset-4">
                   Forgot password?
                 </a>
               </div>
-            </div>
-            <div className="mt-2">
               <input
                 id="password"
                 name="password"
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/ "
+                className="block w-full rounded-lg bg-surface-subtle border border-outline-variant px-4 py-3 text-on-background placeholder:text-on-surface-variant focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                placeholder="Enter your password"
               />
             </div>
-          </div>
 
-          <div>
             <button
               type="submit"
-              className="orange-color-bg flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="w-full py-3.5 bg-primary-container text-white font-semibold rounded-lg hover:opacity-90 transition-all text-center"
             >
               Sign in
             </button>
-          </div>
-        </form>
+          </form>
 
-        <p className="  mt-10 text-center text-sm/6 text-gray-500">
-          Don't have an account?{' '}
-          <a href="/register" className="orange-color font-semibold text-indigo-600 hover:text-indigo-500">
-            Register
-          </a>
-        </p>
+          <p className="mt-8 text-center text-sm text-on-surface-variant">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-primary font-semibold hover:underline underline-offset-4">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
-  </>
-
   )
 }
 
