@@ -2,6 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
+import { useAuth } from '../hooks/useAuth'
 import { useAuthStore } from '../stores/auth.store'
 import { Link } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  useAuth()
   const apiUrl = import.meta.env.VITE_API_URL
   const navigate = useNavigate()
   const user = useAuthStore((state) => state.user);

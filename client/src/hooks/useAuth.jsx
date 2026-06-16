@@ -1,22 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUser } from "../services/user.service";
 import { useAuthStore } from "../stores/auth.store";
 
 export const useAuth = () => {
-  const setUsername = useAuthStore((state) => state.setUsername);
-  const setEmail = useAuthStore((state) => state.setEmail);
-
+  const setUser = useAuthStore((state) => state.setUser);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await getUser();
-        if (user) {
-          setUsername(user.username);
-          setEmail(user.email);
+        const data = await getUser();
+        if (data?.success && data.user) {
+          setUser(data.user);
         }
       } catch (err) {
-        setError(err.message);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -25,4 +23,5 @@ export const useAuth = () => {
     fetchUser();
   }, []);
 
+  return { loading };
 };
