@@ -43,7 +43,6 @@ npm run dev
 # Sneak Peek
 <img width="706" height="1536" alt="Image" src="https://github.com/user-attachments/assets/e72c370f-0e52-4d4f-9e69-7c9f91082528" />
 
-<img width="1346" height="582" alt="Image" src="https://github.com/user-attachments/assets/dce3dd8d-d084-4d53-85ee-201b0942540a" />
 
 <img width="507" height="539" alt="Image" src="https://github.com/user-attachments/assets/b6f4c914-35e9-4d0b-9b1c-d18e921ff207" />
 
